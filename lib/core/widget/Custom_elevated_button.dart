@@ -10,14 +10,11 @@ class CustomElevatedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        fixedSize: Size(MediaQuery
-            .of(context)
-            .size
-            .width, 52),
+        fixedSize: Size(MediaQuery.of(context).size.width, 52),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
       ),
 
-      onPressed:onPressed ,
+      onPressed: onPressed,
       child: Text(title),
     );
   }
