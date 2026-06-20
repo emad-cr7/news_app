@@ -21,9 +21,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   final GlobalKey<FormState> _key = GlobalKey();
 
-  bool isPassword = false;
-  bool isConfirmPassword = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,27 +58,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 SizedBox(height: 12),
                 CustomTextFromField(
-                  obscureText:isPassword ? false : true,
-
+                  obscureText: true,
                   controller: passwordController,
                   title: 'Password',
                   hint: 'Enter Password',
                   errorMessage: 'Please Enter Password',
-                  suffix: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        isPassword = !isPassword;
-                      });
-                    },
-                    icon: isPassword
-                        ? Icon(Icons.visibility)
-                        : Icon(Icons.visibility_off),
-                  ),
                 ),
                 SizedBox(height: 12),
                 CustomTextFromField(
-                  obscureText:isConfirmPassword ? false : true,
-
+                  obscureText:true,
                   controller: confirmPasswordController,
                   extraValidator: (value) {
                     if (value != passwordController.text) {
@@ -92,16 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   title: 'Confirm Password',
                   hint: 'Enter Confirm Password',
                   errorMessage: 'Please Enter Confirm Password',
-                  suffix:IconButton(
-                    onPressed: () {
-                      setState(() {
-                        isConfirmPassword = !isConfirmPassword;
-                      });
-                    },
-                    icon: isConfirmPassword
-                        ? Icon(Icons.visibility)
-                        : Icon(Icons.visibility_off),
-                  ),
+
                 ),
                 SizedBox(height: 20),
                 Center(

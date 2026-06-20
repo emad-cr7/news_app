@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CustomTextFromField extends StatelessWidget {
+class CustomTextFromField extends StatefulWidget {
   const CustomTextFromField({
     super.key,
     required this.controller,
     required this.title,
     required this.hint,
     required this.errorMessage,
-     this.suffix,
+    this.suffix,
     this.extraValidator,
-    required this.obscureText,
+    this.obscureText = false,
   });
 
   final TextEditingController controller;
@@ -18,31 +18,50 @@ class CustomTextFromField extends StatelessWidget {
   final String hint;
   final String errorMessage;
   final Widget? suffix;
-  final bool obscureText ;
+  final bool obscureText;
+
   final String? Function(String?)? extraValidator;
+
+  @override
+  State<CustomTextFromField> createState() => _CustomTextFromFieldState();
+}
+
+class _CustomTextFromFieldState extends State<CustomTextFromField> {
+  bool isPassword = true;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: Theme.of(context).textTheme.titleMedium),
+        Text(widget.title, style: Theme.of(context).textTheme.titleMedium),
         SizedBox(height: 8),
         TextFormField(
-          obscureText:obscureText ,
-          controller: controller,
+          obscureText: widget.obscureText && isPassword,
+          controller: widget.controller,
 
           validator: (String? value) {
             if (value == null || value.trim().isEmpty) {
-              return errorMessage;
+              return widget.errorMessage;
             }
-            if (extraValidator != null) {
-              return extraValidator!(value);
+            if (widget.extraValidator != null) {
+              return widget.extraValidator!(value);
             }
           },
           decoration: InputDecoration(
-            hintText: hint,
-            suffixIcon: suffix,
+            hintText: widget.hint,
+            suffixIcon: widget.obscureText
+                ? IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isPassword = !isPassword;
+                      });
+                    },
+                    icon: isPassword
+                        ? Icon(Icons.visibility_off)
+                        : Icon(Icons.visibility),
+                  )
+                : null,
           ),
         ),
       ],

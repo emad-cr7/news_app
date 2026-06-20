@@ -50,7 +50,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 SizedBox(height: 16),
                 CustomTextFromField(
-                  obscureText: false,
                   controller: emailController,
                   title: 'Email',
                   hint: 'Enter Email',
@@ -58,21 +57,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 SizedBox(height: 12),
                 CustomTextFromField(
-                  obscureText:isPassword ? false : true,
+                  obscureText: true,
                   controller: passwordController,
                   title: 'Password',
                   hint: 'Enter Password',
                   errorMessage: 'Please Enter Password',
-                  suffix:IconButton(
-                    onPressed: () {
-                      setState(() {
-                        isPassword = !isPassword;
-                      });
-                    },
-                    icon: isPassword
-                        ? Icon(Icons.visibility)
-                        : Icon(Icons.visibility_off),
-                  ),
                 ),
                 SizedBox(height: 20),
                 Center(
@@ -97,8 +86,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text("Don’t have an account ?"),
-                    TextButton(
-                      onPressed: () {
+                    SizedBox(width: 8),
+                    InkWell(
+                      onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -108,7 +98,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         );
                       },
-                      child: Text("Sign Up"),
+                      child: Text(
+                        "Sign Up ",
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
                     ),
                   ],
                 ),
