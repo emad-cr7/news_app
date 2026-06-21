@@ -4,7 +4,7 @@ class CustomElevatedButton extends StatelessWidget {
   const CustomElevatedButton({super.key, this.onPressed, required this.title});
 
   final VoidCallback? onPressed;
-  final String title;
+  final String  title;
 
   @override
   Widget build(BuildContext context) {

@@ -16,6 +16,9 @@ ThemeData lightTheme = ThemeData(
     centerTitle: true,
     scrolledUnderElevation: 0,
   ),
+  progressIndicatorTheme: ProgressIndicatorThemeData(
+    color: Colors.white
+  ),
   // switchTheme: SwitchThemeData(
   //   trackColor: WidgetStateProperty.resolveWith((states) {
   //     if (states.contains(WidgetState.selected)) {
@@ -55,18 +58,18 @@ ThemeData lightTheme = ThemeData(
   textTheme: TextTheme(
     displaySmall: TextStyle(
       fontSize: 20,
-      color: Color(0xff4E4B66),
+      color: LightColor.primaryColor,
       fontWeight: FontWeight.w700,
     ),
     displayMedium: TextStyle(
       fontSize: 28,
-      color: Color(0xff161F1B),
+      color: LightColor.primaryColor,
       fontWeight: FontWeight.w400,
     ),
     displayLarge: TextStyle(
       fontSize: 32,
-      color: Color(0xff161F1B),
-      fontWeight: FontWeight.w400,
+      color: LightColor.primaryColor,
+      fontWeight: FontWeight.w600,
     ),
     titleSmall: TextStyle(
       color: LightColor.primaryColor,
@@ -74,20 +77,20 @@ ThemeData lightTheme = ThemeData(
       fontWeight: FontWeight.w400,
     ),
     titleMedium: TextStyle(
-      color: Color(0XFF4E4B66),
+      color: Color(0xffFFFCFC),
       fontSize: 16,
-      fontWeight: FontWeight.w400,
+      fontWeight: FontWeight.w700,
     ),
     titleLarge: TextStyle(
-      color: Color(0xff6A6A6A),
+      color: LightColor.primaryColor,
       fontSize: 16,
       fontWeight: FontWeight.w400,
       decoration: TextDecoration.lineThrough,
-      decorationColor: Color(0xff6A6A6A),
+      decorationColor: LightColor.primaryColor,
       overflow: TextOverflow.ellipsis,
     ),
-    labelSmall: TextStyle(color: Color(0XFF161F1B), fontSize: 20),
-    labelMedium: TextStyle(color: Color(0XFF161F1B), fontSize: 16),
+    labelSmall: TextStyle(color: LightColor.primaryColor, fontSize: 20),
+    labelMedium: TextStyle(color: LightColor.primaryColor, fontSize: 16),
   ),
   inputDecorationTheme: InputDecorationTheme(
     hintStyle: TextStyle(color: Color(0XFF9E9E9E)),

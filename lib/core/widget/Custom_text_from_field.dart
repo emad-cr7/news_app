@@ -7,20 +7,18 @@ class CustomTextFromField extends StatefulWidget {
     required this.controller,
     required this.title,
     required this.hint,
-    required this.errorMessage,
     this.suffix,
-    this.extraValidator,
     this.obscureText = false,
+     this.validator,
   });
 
   final TextEditingController controller;
   final String title;
   final String hint;
-  final String errorMessage;
   final Widget? suffix;
   final bool obscureText;
+  final Function(String?)? validator;
 
-  final String? Function(String?)? extraValidator;
 
   @override
   State<CustomTextFromField> createState() => _CustomTextFromFieldState();
@@ -40,14 +38,10 @@ class _CustomTextFromFieldState extends State<CustomTextFromField> {
           obscureText: widget.obscureText && isPassword,
           controller: widget.controller,
 
-          validator: (String? value) {
-            if (value == null || value.trim().isEmpty) {
-              return widget.errorMessage;
-            }
-            if (widget.extraValidator != null) {
-              return widget.extraValidator!(value);
-            }
-          },
+          validator: widget.validator != null
+              ? (String? value) => widget.validator!(value)
+              : null,
+
           decoration: InputDecoration(
             hintText: widget.hint,
             suffixIcon: widget.obscureText

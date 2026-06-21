@@ -28,5 +28,3 @@ linter:
 # https://dart.dev/guides/language/analysis-options
 
 
-formatter:
-  page_width: 80

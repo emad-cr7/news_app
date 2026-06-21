@@ -1,20 +1,59 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/features/auth/sign_in_screen.dart';
-
-import '../../core/widget/Custom_elevated_button.dart';
+import 'package:news_app/features/main/main_screen.dart';
+import '../../core/api/local_data/servies/preferences_manager.dart';
 import '../../core/widget/Custom_text_from_field.dart';
-import '../home/home_screen.dart';
 
-class RegisterScreen extends StatelessWidget {
-   RegisterScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  RegisterScreen({super.key});
 
-  TextEditingController emailController = TextEditingController();
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
 
-  TextEditingController passwordController = TextEditingController();
-
-  TextEditingController confirmPasswordController = TextEditingController();
+class _RegisterScreenState extends State<RegisterScreen> {
 
   final GlobalKey<FormState> _key = GlobalKey();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  String? errorMessage;
+  bool isLoading = false;
+
+
+
+  void register() async {
+    setState(() {
+      errorMessage = null;
+      isLoading = true;
+    });
+    await Future.delayed(Duration(seconds: 3));
+
+    final savedEmail = PreferencesManager().getString("user_email");
+
+    if (savedEmail != null && savedEmail == emailController.text.trim()) {
+
+      setState(() {
+        errorMessage = "User Already Registered";
+        isLoading = false;
+      });
+
+    } else {
+      await PreferencesManager().setString("user_email", emailController.text);
+      await PreferencesManager().setString("user_Password", passwordController.text);
+      await PreferencesManager().setBool('is_logged_in', true);
+      setState(() {
+        isLoading = false;
+      });
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) {
+            return MainScreen();
+          },
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +91,20 @@ class RegisterScreen extends StatelessWidget {
                       controller: emailController,
                       title: 'Email',
                       hint: 'Enter Email',
-                      errorMessage: 'Please Enter Email',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please Enter  Email";
+                        }
+                        RegExp emailRegExp = RegExp(
+                          r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+                        );
+
+                        if (!emailRegExp.hasMatch(value)) {
+                          return "Please Enter Valid Email ";
+                        } else {
+                          return null;
+                        }
+                      },
                     ),
                     SizedBox(height: 12),
                     CustomTextFromField(
@@ -60,58 +112,75 @@ class RegisterScreen extends StatelessWidget {
                       controller: passwordController,
                       title: 'Password',
                       hint: 'Enter Password',
-                      errorMessage: 'Please Enter Password',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please Enter Password";
+                        }
+                      },
                     ),
                     SizedBox(height: 12),
                     CustomTextFromField(
-                      obscureText:true,
-                      controller: confirmPasswordController,
-                      extraValidator: (value) {
-                        if (value != passwordController.text) {
-                          return "Passwords do not match";
-                        }
-                        return null;
-                      },
+                      obscureText: true,
                       title: 'Confirm Password',
                       hint: 'Enter Confirm Password',
-                      errorMessage: 'Please Enter Confirm Password',
+                      controller: confirmPasswordController,
 
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please Enter Confirm Password";
+                        }
+                        if (value != passwordController.text) {
+                          return "Password do Not Match";
+                        }
+                      },
                     ),
+
+                    if (errorMessage != null)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Text(
+                          errorMessage!,
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+
                     SizedBox(height: 20),
                     Center(
-                      child: CustomElevatedButton(
-                        title: 'Sign Up',
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          fixedSize: Size(
+                            MediaQuery.of(context).size.width,
+                            52,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        ),
+
                         onPressed: () {
                           if (_key.currentState!.validate()) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (BuildContext context) {
-                                  return LoginScreen();
-                                },
-                              ),
-                            );
+                            register();
                           }
                         },
+                        child: isLoading
+                            ? CircularProgressIndicator()
+                            : Text("Sign Up"),
                       ),
                     ),
+
                     SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Have an account ?"),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (BuildContext context) {
-                                  return LoginScreen();
-                                },
-                              ),
-                            );
+                        Text("Have an account ?  "),
+                        InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
                           },
-                          child: Text("Sign Up"),
+                          child: Text(
+                            "Sign In ",
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
                         ),
                       ],
                     ),

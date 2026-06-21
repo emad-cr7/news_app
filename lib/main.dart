@@ -10,6 +10,7 @@ import 'features/splash/splash_screen.dart';
 void main() async{
    WidgetsFlutterBinding.ensureInitialized();
  await  PreferencesManager().init();
+
   runApp(const MyApp());
 }
 
