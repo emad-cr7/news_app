@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/enums/request_status.dart';
+import 'package:news_app/features/home/components/view_component.dart';
 import 'package:news_app/features/home/home_controller.dart';
 import 'package:provider/provider.dart';
 
@@ -11,7 +12,7 @@ class TrendingNews extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 330,
+      height: 310,
       child: Stack(
         children: [
           SizedBox(
@@ -28,30 +29,7 @@ class TrendingNews extends StatelessWidget {
               children: [
                 Text("NEWST", style: Theme.of(context).textTheme.displayLarge),
                 SizedBox(height: 15),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Trending News",
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-
-                      InkWell(
-                        onTap: () {},
-                        child: Text(
-                          "View all",
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(
-                                decoration: TextDecoration.underline,
-                                decorationColor: Colors.white,
-                              ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                ViewComponent(title: "Trending News", color: Colors.white, onTap: (){},),
                 SizedBox(height: 12),
 
                 SizedBox(
