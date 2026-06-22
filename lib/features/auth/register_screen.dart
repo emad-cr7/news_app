@@ -47,7 +47,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       await PreferencesManager().setString("user_email", emailController.text);
       await PreferencesManager().setString(
         "user_password",
-        emailController.text,
+        passwordController.text,
       );
       await PreferencesManager().setBool('is_logged_in', true);
 
@@ -116,7 +116,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 SizedBox(height: 12),
                 CustomTextFromField(
-                  obscureText: isLoading ? false : true,
+                  obscureText: isPassword ? false : true,
 
                   controller: passwordController,
                   title: 'Password',

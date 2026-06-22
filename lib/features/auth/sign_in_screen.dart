@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
     await Future.delayed(Duration(seconds: 3));
 
     final savedEmail = PreferencesManager().getString("user_email");
-    final savedPassword = PreferencesManager().getString("user_Password");
+    final savedPassword = PreferencesManager().getString("user_password");
     if (savedEmail == null || savedPassword == null) {
       setState(() {
         errorMessage = "No Account Found Please Register First ";
@@ -117,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 SizedBox(height: 12),
                 CustomTextFromField(
-                  obscureText: isLoading ? false : true,
+                  obscureText: isPassword ? false : true,
                   controller: passwordController,
                   title: 'Password',
                   hint: 'Enter Password',
@@ -180,7 +180,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         );
                       },
-                      child: Text("Sign Up"),
+                      child: Text(
+                        "Sign Up ",
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
                     ),
                   ],
                 ),
