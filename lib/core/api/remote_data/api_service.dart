@@ -9,6 +9,7 @@ class ApiService {
 
       ...?params,
     });
+
     try {
       final http.Response response = await http.get(url);
 

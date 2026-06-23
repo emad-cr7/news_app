@@ -30,7 +30,7 @@ class HomeController with ChangeNotifier {
     try {
       Map<String, dynamic> resalt = await apiService.get(
         ApiConfig.topHeadlines,
-        params: {"country": "us"},
+        params: {"country": "us" , "category" : selectedCategory},
       );
 
       newsTopHeadLineList = (resalt[ApiConfig.articles] as List)
