@@ -29,9 +29,8 @@ class TrendingNews extends StatelessWidget {
               children: [
                 Text("NEWST", style: Theme.of(context).textTheme.displayLarge),
                 SizedBox(height: 15),
-                ViewComponent(title: "Trending News", color: Colors.white, onTap: (){},),
+                ViewComponent(title: "Trending News", onTap: () {}),
                 SizedBox(height: 12),
-
                 SizedBox(
                   height: 140,
                   child: Consumer<HomeController>(

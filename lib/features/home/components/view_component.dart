@@ -4,12 +4,12 @@ class ViewComponent extends StatelessWidget {
   const ViewComponent({
     super.key,
     required this.title,
-    required this.color,
+    this.color,
     required this.onTap,
   });
 
   final String title;
-  final Color color;
+  final Color? color;
   final Function onTap;
 
   @override
@@ -24,7 +24,7 @@ class ViewComponent extends StatelessWidget {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w700,
-              color: color,
+              color: color ?? Color(0XFFFFFCFC),
             ),
           ),
 
@@ -35,9 +35,9 @@ class ViewComponent extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
-                color: color,
+                color: color ?? Color(0XFFFFFCFC),
                 decoration: TextDecoration.underline,
-                decorationColor: color,
+                decorationColor: color ?? Color(0XFFFFFCFC),
               ),
             ),
           ),
