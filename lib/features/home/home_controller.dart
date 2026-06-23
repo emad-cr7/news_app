@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart';
 
 import '../../core/api/remote_data/api_config.dart';
 import '../../core/api/remote_data/api_service.dart';
@@ -12,14 +13,20 @@ class HomeController with ChangeNotifier {
   }
 
   RequestStatus everythingLoading = RequestStatus.loading;
+
   RequestStatus topHeadLineLoading = RequestStatus.loading;
 
   List<NewsArticleModel> newsTopHeadLineList = [];
+
   List<NewsArticleModel> newsEverythingList = [];
+
   ApiService apiService = ApiService();
+
   String? errorMessage;
 
-  void getTopHeadLine() async {
+  String? selectedCategory;
+
+  void getTopHeadLine({String? category}) async {
     try {
       Map<String, dynamic> resalt = await apiService.get(
         ApiConfig.topHeadlines,
@@ -53,6 +60,12 @@ class HomeController with ChangeNotifier {
       everythingLoading = RequestStatus.error;
       errorMessage = e.toString();
     }
+    notifyListeners();
+  }
+
+  void updateSelectedCategory(String category) {
+    selectedCategory = category;
+    getTopHeadLine(category: selectedCategory);
     notifyListeners();
   }
 }

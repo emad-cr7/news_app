@@ -13,10 +13,9 @@ class ListTrending extends StatelessWidget {
             (BuildContext context, HomeController controller, Widget? child) {
             return ListView.separated(
               padding: EdgeInsets.only(left: 16),
-              itemCount: controller.newsEverythingList.length,
+              itemCount: controller.newsEverythingList.take(10).length,
               scrollDirection: Axis.horizontal,
-              separatorBuilder: (BuildContext context, int index) =>
-                  SizedBox(width: 12),
+              separatorBuilder: (BuildContext context, int index) => SizedBox(width: 12),
               itemBuilder: (BuildContext context, int index) {
                 final model = controller.newsEverythingList[index];
                 return SizedBox(
