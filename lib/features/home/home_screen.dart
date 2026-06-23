@@ -92,7 +92,9 @@ class HomeScreen extends StatelessWidget {
                                                     .substring(
                                                       0,
                                                       min(
-                                                        model.author!.length,
+                                                        (model.author ??
+                                                                "Not defined")
+                                                            .length,
                                                         10,
                                                       ),
                                                     ),
@@ -107,21 +109,14 @@ class HomeScreen extends StatelessWidget {
                                               ),
                                               SizedBox(width: 8),
                                               Text(
-                                                formatDateTime(
-                                                  model.publishedAt ?? "",
-                                                ).substring(
-                                                  0,
-                                                  min(model.author!.length, 10),
-                                                ),
+                                                model.formatDateTime(),
+                                                overflow: TextOverflow.ellipsis, // ← على Text مباشرة
                                                 style: TextStyle(
                                                   color: Color(0XFF141414),
-
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.w400,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
                                                 ),
-                                              ),
+                                              )
                                             ],
                                           ),
                                         ),
@@ -141,25 +136,5 @@ class HomeScreen extends StatelessWidget {
             },
       ),
     );
-  }
-
-  String formatDateTime(String? date) {
-    if (date == null) return "";
-
-    final diff = DateTime.now().difference(DateTime.parse(date));
-
-    if (diff.inMinutes < 60) {
-      return "${diff.inMinutes} minutes ago";
-    }
-
-    if (diff.inHours < 24) {
-      return "${diff.inHours} hours ago";
-    }
-
-    if (diff.inDays < 30) {
-      return "${diff.inDays} days ago";
-    }
-
-    return "${(diff.inDays / 30).floor()} months ago";
   }
 }

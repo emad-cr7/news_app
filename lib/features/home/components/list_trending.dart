@@ -86,7 +86,7 @@ class ListTrending extends StatelessWidget {
                                           ),
                                         ),
                                         Text(
-                                          formatDateTime(model.publishedAt),
+                                          model.formatDateTime(),
                                           style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400,
@@ -111,23 +111,5 @@ class ListTrending extends StatelessWidget {
     );
   }
 
-  String formatDateTime(String? date) {
-    if (date == null) return "";
 
-    final diff = DateTime.now().difference(DateTime.parse(date));
-
-    if (diff.inMinutes < 60) {
-      return "${diff.inMinutes} minutes ago";
-    }
-
-    if (diff.inHours < 24) {
-      return "${diff.inHours} hours ago";
-    }
-
-    if (diff.inDays < 30) {
-      return "${diff.inDays} days ago";
-    }
-
-    return "${(diff.inDays / 30).floor()} months ago";
-  }
 }
