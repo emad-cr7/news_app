@@ -69,147 +69,149 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/background.png"),
+      resizeToAvoidBottomInset: true,
+      body: SingleChildScrollView(
+        child: Container(
+          width: double.infinity,
+          height:  MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/background.png"),
+            ),
           ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Form(
-            key: _key,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Image.asset("assets/images/logo.png", height: 45),
-                ),
-                SizedBox(height: 24),
-                Text(
-                  "Welcome to Newts",
-                  style: Theme.of(context).textTheme.displaySmall,
-                ),
-                SizedBox(height: 16),
-                CustomTextFromField(
-                  obscureText: false,
-                  controller: emailController,
-                  title: 'Email',
-                  hint: 'Enter Email',
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return "Please Enter Email";
-                    }
-                    RegExp emailRegExp = RegExp(
-                      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-                    );
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Form(
+              key: _key,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Image.asset("assets/images/logo.png", height: 45),
+                  ),
+                  SizedBox(height: 24),
+                  Text(
+                    "Welcome to Newts",
+                    style: Theme.of(context).textTheme.displaySmall,
+                  ),
+                  SizedBox(height: 16),
+                  CustomTextFromField(
+                    obscureText: false,
+                    controller: emailController,
+                    title: 'Email',
+                    hint: 'Enter Email',
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return "Please Enter Email";
+                      }
+                      RegExp emailRegExp = RegExp(
+                        r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+                      );
 
-                    if (!emailRegExp.hasMatch(value)) {
-                      return "Please Enter Valid Email";
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-                SizedBox(height: 12),
-                CustomTextFromField(
-                  obscureText: isPassword ? false : true,
-
-                  controller: passwordController,
-                  title: 'Password',
-                  hint: 'Enter Password',
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return "Please Enter Password";
-                    }
-                  },
-                  suffix: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        isPassword = !isPassword;
-                      });
-                    },
-                    icon: isPassword
-                        ? Icon(Icons.visibility)
-                        : Icon(Icons.visibility_off),
-                  ),
-                ),
-                SizedBox(height: 12),
-                CustomTextFromField(
-                  obscureText: isConfirmPassword ? false : true,
-                  controller: confirmPasswordController,
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return "Please Enter Confirm Password";
-                    }
-                    if (value != passwordController.text) {
-                      return "Password do not match";
-                    }
-                  },
-                  title: 'Confirm Password',
-                  hint: 'Enter Confirm Password',
-                  suffix: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        isConfirmPassword = !isConfirmPassword;
-                      });
-                    },
-                    icon: isConfirmPassword
-                        ? Icon(Icons.visibility)
-                        : Icon(Icons.visibility_off),
-                  ),
-                ),
-                if (errorMessage != null)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 6.0),
-                    child: Text(
-                      errorMessage!,
-                      style: TextStyle(color: Colors.red),
-                    ),
-                  ),
-                SizedBox(height: 20),
-                Center(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (_key.currentState?.validate() ?? false) {
-                        register();
+                      if (!emailRegExp.hasMatch(value)) {
+                        return "Please Enter Valid Email";
+                      } else {
+                        return null;
                       }
                     },
-                    style: ElevatedButton.styleFrom(
-                      fixedSize: Size(MediaQuery.of(context).size.width, 52),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4),
+                  ),
+                  SizedBox(height: 12),
+                  CustomTextFromField(
+                    obscureText: isPassword ? false : true,
+                    controller: passwordController,
+                    title: 'Password',
+                    hint: 'Enter Password',
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return "Please Enter Password";
+                      }
+                    },
+                    suffix: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          isPassword = !isPassword;
+                        });
+                      },
+                      icon: isPassword
+                          ? Icon(Icons.visibility)
+                          : Icon(Icons.visibility_off),
+                    ),
+                  ),
+                  SizedBox(height: 12),
+                  CustomTextFromField(
+                    obscureText: isConfirmPassword ? false : true,
+                    controller: confirmPasswordController,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return "Please Enter Confirm Password";
+                      }
+                      if (value != passwordController.text) {
+                        return "Password do not match";
+                      }
+                    },
+                    title: 'Confirm Password',
+                    hint: 'Enter Confirm Password',
+                    suffix: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          isConfirmPassword = !isConfirmPassword;
+                        });
+                      },
+                      icon: isConfirmPassword
+                          ? Icon(Icons.visibility)
+                          : Icon(Icons.visibility_off),
+                    ),
+                  ),
+                  if (errorMessage != null)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 6.0),
+                      child: Text(
+                        errorMessage!,
+                        style: TextStyle(color: Colors.red),
                       ),
                     ),
-                    child: isLoading
-                        ? CircularProgressIndicator()
-                        : Text("Sign Up"),
-                  ),
-                ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Have an account ?"),
-                    TextButton(
+                  SizedBox(height: 20),
+                  Center(
+                    child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return LoginScreen();
-                            },
-                          ),
-                        );
+                        if (_key.currentState?.validate() ?? false) {
+                          register();
+                        }
                       },
-                      child: Text("Sign In"),
+                      style: ElevatedButton.styleFrom(
+                        fixedSize: Size(MediaQuery.of(context).size.width, 52),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                      child: isLoading
+                          ? CircularProgressIndicator()
+                          : Text("Sign Up"),
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Have an account ?"),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) {
+                                return LoginScreen();
+                              },
+                            ),
+                          );
+                        },
+                        child: Text("Sign In"),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
