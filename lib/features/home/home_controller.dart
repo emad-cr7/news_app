@@ -1,6 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart';
-
 import '../../core/api/remote_data/api_config.dart';
 import '../../core/api/remote_data/api_service.dart';
 import '../../core/enums/request_status.dart';
@@ -28,6 +26,8 @@ class HomeController with ChangeNotifier {
 
   void getTopHeadLine({String? category}) async {
     try {
+       topHeadLineLoading = RequestStatus.loading;
+       notifyListeners();
       Map<String, dynamic> resalt = await apiService.get(
         ApiConfig.topHeadlines,
         params: {"country": "us" , "category" : selectedCategory},
@@ -49,7 +49,7 @@ class HomeController with ChangeNotifier {
     try {
       Map<String, dynamic> resalt = await apiService.get(
         ApiConfig.everything,
-        params: {"q": "gaming"},
+        params: {"q": "news"},
       );
       newsEverythingList = (resalt[ApiConfig.articles] as List)
           .map((e) => NewsArticleModel.fromJson(e))

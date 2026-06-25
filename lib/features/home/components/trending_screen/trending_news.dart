@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/enums/request_status.dart';
+import 'package:news_app/features/home/components/trending_screen/trending_news_Shimmer.dart';
 import 'package:news_app/features/home/components/view_component.dart';
 import 'package:news_app/features/home/home_controller.dart';
 import 'package:provider/provider.dart';
-
 import 'list_trending.dart';
 
 class TrendingNews extends StatelessWidget {
@@ -43,11 +43,9 @@ class TrendingNews extends StatelessWidget {
                           ) {
                             switch (controller.everythingLoading) {
                               case RequestStatus.loading:
-                                return Center(child: CircularProgressIndicator());
+                                return  TrendingNewsShimmer();
                               case RequestStatus.error:
-                                return Center(
-                                  child: Text(controller.errorMessage!),
-                                );
+                                return Center(child: Text(controller.errorMessage!),);
                               case RequestStatus.loaded:
                                 return ListTrending();
                             }

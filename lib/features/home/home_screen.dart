@@ -1,140 +1,28 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:news_app/features/home/home_controller.dart';
 import 'package:provider/provider.dart';
-
 import 'components/categories_list.dart';
-import 'components/trending_news.dart';
-import 'components/view_component.dart';
+import 'components/top_headLine_screen/top_headLine.dart';
+import 'components/trending_screen/trending_news.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<HomeController>(
-      create: (BuildContext context) => HomeController(),
-      child: Consumer<HomeController>(
-        builder:
-            (BuildContext context, HomeController controller, Widget? child) {
-              return Scaffold(
-                body: CustomScrollView(
-                  slivers: [
-                    TrendingNews(),
-                    SliverToBoxAdapter(
-                      child: ViewComponent(
-                        title: 'Categories',
-                        color: Colors.black,
-                        onTap: () {},
-                      ),
-                    ),
-                    CategoriesList(),
-                    SliverList.builder(
-                      itemCount: controller.newsTopHeadLineList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final model = controller.newsTopHeadLineList[index];
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 8,
-                          ),
-                          child: Row(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: Image.network(
-                                  model.urlToImage ?? "",
-                                  height: 80,
-                                  width: 140,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, _) =>
-                                      Container(
-                                        height: 80,
-                                        width: 140,
-                                        color: Colors.grey.shade200,
-                                        child: const Icon(Icons.broken_image),
-                                      ),
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      model.title ?? "",
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Row(
-                                      children: [
-                                        CircleAvatar(
-                                          backgroundImage:
-                                              model.urlToImage != null
-                                              ? NetworkImage(model.urlToImage!)
-                                              : null,
-                                          radius: 12,
-                                        ),
-                                        SizedBox(width: 6),
-                                        Expanded(
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                (model.author ?? "Not defined")
-                                                    .substring(
-                                                      0,
-                                                      min(
-                                                        (model.author ??
-                                                                "Not defined")
-                                                            .length,
-                                                        10,
-                                                      ),
-                                                    ),
-                                                style: TextStyle(
-                                                  color: Color(0XFF141414),
-
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w400,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                              ),
-                                              SizedBox(width: 8),
-                                              Text(
-                                                model.formatDateTime(),
-                                                overflow: TextOverflow.ellipsis, // ← على Text مباشرة
-                                                style: TextStyle(
-                                                  color: Color(0XFF141414),
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              );
-            },
-      ),
+    return Consumer<HomeController>(
+      builder:
+          (BuildContext context, HomeController controller, Widget? child) {
+            return Scaffold(
+              body: CustomScrollView(
+                slivers: [
+                  TrendingNews(),
+                  CategoriesList(),
+                  TopHeadline(),
+                ],
+              ),
+            );
+          },
     );
   }
 }

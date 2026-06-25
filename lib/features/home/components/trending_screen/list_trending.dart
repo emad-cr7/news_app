@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app/core/extentions/date_time_extention.dart';
 import 'package:news_app/features/home/home_controller.dart';
 import 'package:provider/provider.dart';
+import '../../../../core/widget/Custom_cached_network_image.dart';
 
 class ListTrending extends StatelessWidget {
   const ListTrending({super.key});
@@ -24,12 +26,10 @@ class ListTrending extends StatelessWidget {
                     borderRadius: BorderRadiusGeometry.circular(12),
                     child: Stack(
                       children: [
-                        if (model.urlToImage != null)
-                          Image.network(
-                            width: 240,
-                            height: 140,
-                            model.urlToImage!,
-                          ),
+                        CustomCachedNetworkImage(imagePath:model.urlToImage ?? "" ,
+                          height: 140,
+                          width: 240,
+                        ),
                         Positioned.fill(
                           child: Container(
                             decoration: BoxDecoration(
@@ -86,7 +86,7 @@ class ListTrending extends StatelessWidget {
                                           ),
                                         ),
                                         Text(
-                                          model.formatDateTime(),
+                                          model.publishedAt.formatDateTime(),
                                           style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400,

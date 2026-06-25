@@ -1,11 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/features/auth/register_screen.dart';
-
 import '../../core/api/local_data/servies/preferences_manager.dart';
-import '../../core/widget/Custom_elevated_button.dart';
 import '../../core/widget/Custom_text_from_field.dart';
-import '../home/home_screen.dart';
 import '../main/main_screen.dart';
 
 class LoginScreen extends StatefulWidget {
