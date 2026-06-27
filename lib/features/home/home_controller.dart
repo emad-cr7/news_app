@@ -23,15 +23,19 @@ class HomeController with ChangeNotifier {
   void getTopHeadLine({String? category}) async {
     try {
       topHeadLineLoading = RequestStatus.loading;
+
       notifyListeners();
+
       Map<String, dynamic> resalt = await apiService.get(
         ApiConfig.topHeadlines,
         params: {"country": "us", "category": selectedCategory},
       );
 
+
       newsTopHeadLineList = (resalt[ApiConfig.articles] as List)
           .map((e) => NewsArticleModel.fromJson(e))
           .toList();
+
       topHeadLineLoading = RequestStatus.loaded;
       errorMessage = null;
     } catch (e) {

@@ -32,14 +32,12 @@ class NewsArticleModel {
   factory NewsArticleModel.fromJson(Map<String, dynamic> map) {
     return NewsArticleModel(
       author: map['author'],
-      title: map['title'],
+      title: map['title'] ?? "",
       description: map['description'],
       url: map['url'],
-      urlToImage: map['urlToImage'],
+      urlToImage: map['urlToImage'] ?? "",
       publishedAt: DateTime.tryParse(map['publishedAt']) ?? DateTime.now(),
       content: map['content'],
     );
   }
-
-
 }
