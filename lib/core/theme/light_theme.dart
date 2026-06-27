@@ -10,9 +10,9 @@ ThemeData lightTheme = ThemeData(
   ),
   scaffoldBackgroundColor: Color(0xfff5f5f5),
   appBarTheme: AppBarTheme(
-    backgroundColor: Color(0xffF6F7F9),
-    titleTextStyle: TextStyle(color: Color(0xff161F1B), fontSize: 20),
-    iconTheme: IconThemeData(color: Color(0xff161F1B)),
+    backgroundColor: Color(0xffFFFFFF),
+    titleTextStyle: TextStyle(color: Color(0xff000000), fontSize: 16 , fontWeight: FontWeight.w700),
+    iconTheme: IconThemeData(color: Color(0xff000000)),
     centerTitle: true,
     scrolledUnderElevation: 0,
   ),

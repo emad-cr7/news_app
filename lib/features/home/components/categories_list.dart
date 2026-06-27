@@ -23,9 +23,14 @@ class CategoriesList extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (BuildContext context) {
-                          return CategoriesScreen();
-                        }),
+                        MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return ChangeNotifierProvider.value(
+                              value: controller,
+                              child: CategoriesScreen(),
+                            );
+                          },
+                        ),
                       );
                     },
                   ),

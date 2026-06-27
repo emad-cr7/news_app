@@ -13,10 +13,7 @@ void main() async{
    WidgetsFlutterBinding.ensureInitialized();
  await  PreferencesManager().init();
 
-  runApp(ChangeNotifierProvider(create: (BuildContext context) {
-    return HomeController();
-  },
-  child: const MyApp()));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:news_app/core/enums/request_status.dart';
 import 'package:news_app/features/home/components/top_headLine_screen/top_headline_Shimmer.dart';
 import 'package:news_app/features/home/home_controller.dart';
 import 'package:provider/provider.dart';
-import 'list_top_headline.dart';
+import '../news_item_categorie.dart';
 
 class TopHeadline extends StatelessWidget {
   const TopHeadline({super.key});
@@ -19,7 +19,13 @@ class TopHeadline extends StatelessWidget {
               case RequestStatus.error:
                 return SliverToBoxAdapter(child: Center(child: Text(controller.errorMessage!),));
               case RequestStatus.loaded:
-                return ListTopHeadline();
+                return SliverList.builder(
+                  itemCount: controller.newsTopHeadLineList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final model = controller.newsTopHeadLineList[index];
+                    return NewsItemCategorie(model: model,);
+                  },
+                );
             }
           },
     );
