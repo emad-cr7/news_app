@@ -13,7 +13,7 @@ ThemeData lightTheme = ThemeData(
   scaffoldBackgroundColor: Color(0xfff5f5f5),
   appBarTheme: AppBarTheme(
     backgroundColor: Color(0xffFFFFFF),
-    titleTextStyle: TextStyle(color: Color(0xff000000), fontSize: 16 , fontWeight: FontWeight.w700),
+    titleTextStyle: TextStyle(color: Color(0xff000000), fontSize: AppSizes.sp16 , fontWeight: FontWeight.w700),
     iconTheme: IconThemeData(color: Color(0xff000000)),
     centerTitle: true,
     scrolledUnderElevation: 0,
@@ -101,32 +101,32 @@ ThemeData lightTheme = ThemeData(
     fillColor: Color(0XFFFFFFFF),
     focusColor: Color(0xffD1DAD6),
     focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(2),
+      borderRadius: BorderRadius.circular(AppSizes.r2),
       borderSide: BorderSide(color: LightColor.backgroundTextField, width: 0.5),
     ),
     errorBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(2),
+      borderRadius: BorderRadius.circular(AppSizes.r2),
       borderSide: BorderSide(color: Colors.red, width: 0.5),
     ),
     enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(2),
+      borderRadius: BorderRadius.circular(AppSizes.r2),
       borderSide: BorderSide(color: LightColor.backgroundTextField, width: 0.5),
     ),
     border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(2),
+      borderRadius: BorderRadius.circular(AppSizes.r2),
       borderSide: BorderSide(color: LightColor.backgroundTextField, width: 0.5),
     ),
   ),
   checkboxTheme: CheckboxThemeData(
     side: BorderSide(color: LightColor.backgroundTextField, width: 2),
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadiusGeometry.circular(4),
+      borderRadius: BorderRadiusGeometry.circular(AppSizes.r4),
     ),
   ),
   iconTheme: IconThemeData(color: Color(0xff161F1B)),
   dividerTheme: DividerThemeData(color: LightColor.backgroundTextField),
   listTileTheme: ListTileThemeData(
-    titleTextStyle: TextStyle(color: Color(0XFF161F1B), fontSize: 20),
+    titleTextStyle: TextStyle(color: Color(0XFF161F1B), fontSize: AppSizes.sp20),
   ),
   textSelectionTheme: TextSelectionThemeData(
     cursorColor: Colors.black,

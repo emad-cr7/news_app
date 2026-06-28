@@ -163,7 +163,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   if (errorMessage != null)
                     Padding(
-                      padding:  EdgeInsets.symmetric(vertical: AppSizes.pw6),
+                      padding:  EdgeInsets.symmetric(vertical: AppSizes.ph6),
                       child: Text(
                         errorMessage!,
                         style: TextStyle(color: Colors.red),

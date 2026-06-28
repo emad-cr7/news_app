@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:news_app/features/home/repos/news_repository.dart';
 import '../../core/api/remote_data/api_config.dart';
 import '../../core/api/remote_data/api_service.dart';
 import '../../core/enums/request_status.dart';
@@ -7,21 +8,23 @@ import 'models/news_article_model.dart';
 
 
 class HomeController with ChangeNotifier {
-  HomeController() {
+  HomeController(this.newsRepository) {
     getTopHeadLine();
     getEverything();
   }
 
 
-
-
   RequestStatus everythingLoading = RequestStatus.loading;
   RequestStatus topHeadLineLoading = RequestStatus.loading;
+
   List<NewsArticleModel> newsTopHeadLineList = [];
   List<NewsArticleModel> newsEverythingList = [];
-  ApiService apiService = ApiService();
+
   String? errorMessage;
   String? selectedCategory;
+
+
+  NewsRepository newsRepository ;
 
 
 
@@ -32,15 +35,7 @@ class HomeController with ChangeNotifier {
       topHeadLineLoading = RequestStatus.loading;
       notifyListeners();
 
-      Map<String, dynamic> resalt = await apiService.get(
-        ApiConfig.topHeadlines,
-        params: {"country": "us", "category": selectedCategory},
-      );
-
-
-      newsTopHeadLineList = (resalt[ApiConfig.articles] as List)
-          .map((e) => NewsArticleModel.fromJson(e))
-          .toList();
+    newsTopHeadLineList = await newsRepository.getTopHeadLine(selectedCategory: selectedCategory );
 
       topHeadLineLoading = RequestStatus.loaded;
       errorMessage = null;
@@ -53,13 +48,7 @@ class HomeController with ChangeNotifier {
 
   void getEverything() async {
     try {
-      Map<String, dynamic> resalt = await apiService.get(
-        ApiConfig.everything,
-        params: {"q": "news"},
-      );
-      newsEverythingList = (resalt[ApiConfig.articles] as List)
-          .map((e) => NewsArticleModel.fromJson(e))
-          .toList();
+      newsEverythingList =  await newsRepository.getEverything();
       everythingLoading = RequestStatus.loaded;
       errorMessage = null;
     } catch (e) {

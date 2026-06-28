@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/features/home/home_controller.dart';
+import 'package:news_app/features/home/repos/news_repository.dart';
 import 'package:provider/provider.dart';
 import 'components/categories_list.dart';
 import 'components/top_headLine_screen/top_headLine.dart';
@@ -11,7 +12,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<HomeController>(
-      create: (BuildContext context) => HomeController(),
+      create: (BuildContext context) => HomeController(NewsRepository()),
       child: Consumer<HomeController>(
         builder:
             (BuildContext context, HomeController controller, Widget? child) {

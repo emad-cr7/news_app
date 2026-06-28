@@ -74,6 +74,7 @@ class AppSizes {
 
   /// Radius
   static double get r4 => 4.r;
+  static double get r2 => 2.r;
   static double get r8 => 8.r;
   static double get r12 => 12.r;
   static double get r16 => 16.r;
