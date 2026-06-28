@@ -17,13 +17,15 @@ class TopHeadline extends StatelessWidget {
               case RequestStatus.loading:
                 return TopHeadlineShimmer();
               case RequestStatus.error:
-                return SliverToBoxAdapter(child: Center(child: Text(controller.errorMessage!),));
+                return SliverToBoxAdapter(
+                  child: Center(child: Text(controller.errorMessage!)),
+                );
               case RequestStatus.loaded:
                 return SliverList.builder(
                   itemCount: controller.newsTopHeadLineList.length,
                   itemBuilder: (BuildContext context, int index) {
                     final model = controller.newsTopHeadLineList[index];
-                    return NewsItemCategorie(model: model,);
+                    return NewsItem(model: model);
                   },
                 );
             }

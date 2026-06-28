@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_app/core/theme/light_theme.dart';
 import 'package:news_app/features/home/home_controller.dart';
 import 'package:provider/provider.dart';
@@ -9,9 +10,10 @@ import 'features/main/main_screen.dart';
 import 'features/onboarding/onboarding.dart';
 import 'features/splash/splash_screen.dart';
 
-void main() async{
-   WidgetsFlutterBinding.ensureInitialized();
- await  PreferencesManager().init();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await ScreenUtil.ensureScreenSize();
+  await PreferencesManager().init();
 
   runApp(const MyApp());
 }
@@ -21,11 +23,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme:lightTheme,
-      home:  SplashScreen(),
+    return ScreenUtilInit(
+      designSize: Size(375, 832),
+      minTextAdapt: true,
+      builder: (context, _) {
+        return MaterialApp(
+          title: 'News App',
+          debugShowCheckedModeBanner: false,
+          theme: lightTheme,
+          home: SplashScreen(),
+        );
+      },
     );
   }
 }

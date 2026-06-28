@@ -4,13 +4,10 @@ import 'package:news_app/core/api/remote_data/api_config.dart';
 
 class ApiService {
   Future<dynamic> get(String endpoint, {Map<String, dynamic>? params}) async {
-
     var url = Uri.http(ApiConfig.baseUrl, "v2/$endpoint", {
-
       "apiKey": ApiConfig.apiKey,
 
       ...?params,
-
     });
 
     try {

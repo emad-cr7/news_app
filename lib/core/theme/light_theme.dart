@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/theme/light_color.dart';
 
+import '../constants/app_sizes.dart';
+
 ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   brightness: Brightness.light,
@@ -43,6 +45,7 @@ ThemeData lightTheme = ThemeData(
       backgroundColor: LightColor.primaryColor,
       foregroundColor: (Color(0xffFFFCFC)),
       textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+      minimumSize: Size.fromHeight(AppSizes.h52)
     ),
   ),
   textButtonTheme: TextButtonThemeData(
@@ -57,40 +60,40 @@ ThemeData lightTheme = ThemeData(
   // ),
   textTheme: TextTheme(
     displaySmall: TextStyle(
-      fontSize: 20,
+      fontSize: AppSizes.sp20,
       color: LightColor.primaryColor,
       fontWeight: FontWeight.w700,
     ),
     displayMedium: TextStyle(
-      fontSize: 28,
+      fontSize: AppSizes.sp28,
       color: LightColor.primaryColor,
       fontWeight: FontWeight.w400,
     ),
     displayLarge: TextStyle(
-      fontSize: 32,
+      fontSize: AppSizes.sp32,
       color: LightColor.primaryColor,
       fontWeight: FontWeight.w600,
     ),
     titleSmall: TextStyle(
       color: LightColor.primaryColor,
-      fontSize: 14,
+      fontSize: AppSizes.sp14,
       fontWeight: FontWeight.w400,
     ),
     titleMedium: TextStyle(
       color: Color(0xff6E7191),
-      fontSize: 16,
+      fontSize: AppSizes.sp16,
       fontWeight: FontWeight.w700,
     ),
     titleLarge: TextStyle(
       color: LightColor.primaryColor,
-      fontSize: 16,
+      fontSize: AppSizes.sp16,
       fontWeight: FontWeight.w400,
       decoration: TextDecoration.lineThrough,
       decorationColor: LightColor.primaryColor,
       overflow: TextOverflow.ellipsis,
     ),
-    labelSmall: TextStyle(color: LightColor.primaryColor, fontSize: 20),
-    labelMedium: TextStyle(color: LightColor.primaryColor, fontSize: 16),
+    labelSmall: TextStyle(color: LightColor.primaryColor, fontSize: AppSizes.sp20),
+    labelMedium: TextStyle(color: LightColor.primaryColor, fontSize: AppSizes.sp16),
   ),
   inputDecorationTheme: InputDecorationTheme(
     hintStyle: TextStyle(color: Color(0XFF9E9E9E)),

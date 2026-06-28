@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/features/auth/register_screen.dart';
 import '../../core/api/local_data/servies/preferences_manager.dart';
+import '../../core/constants/app_sizes.dart';
 import '../../core/widget/Custom_text_from_field.dart';
 import '../main/main_screen.dart';
 
@@ -71,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding:  EdgeInsets.all(AppSizes.w16),
             child: Form(
               key: _key,
               child: Column(
@@ -81,20 +82,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   Center(
                     child: Image.asset(
                       "assets/images/logo.png",
-                      height: 45,
+                      height:AppSizes.h45,
                       fit: BoxFit.cover,
                     ),
                   ),
-                  SizedBox(height: 24),
+                  SizedBox(height:AppSizes.ph24),
                   Text(
                     "Welcome to Newts",
                     style: TextStyle(
                       color: Color(0XFF363636),
-                      fontSize: 20,
+                      fontSize:AppSizes.sp20,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  SizedBox(height: 16),
+                  SizedBox(height:AppSizes.ph16),
                   CustomTextFromField(
                     obscureText: false,
                     controller: emailController,
@@ -115,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       }
                     },
                   ),
-                  SizedBox(height: 12),
+                  SizedBox(height:AppSizes.ph12),
                   CustomTextFromField(
                     obscureText: isPassword ? false : true,
                     controller: passwordController,
@@ -140,13 +141,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   if (errorMessage != null)
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 6.0),
+                      padding:  EdgeInsets.symmetric(vertical:AppSizes.pw6),
                       child: Text(
                         errorMessage!,
                         style: TextStyle(color: Colors.red),
                       ),
                     ),
-                  SizedBox(height: 20),
+                  SizedBox(height:AppSizes.ph20),
                   Center(
                     child: ElevatedButton(
                       onPressed: () {
@@ -155,9 +156,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        fixedSize: Size(MediaQuery.of(context).size.width, 52),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4),
+                          borderRadius: BorderRadius.circular(AppSizes.r4),
                         ),
                       ),
                       child: isLoading
@@ -165,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           : Text("Sign In"),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height:AppSizes.ph20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

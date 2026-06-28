@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/constants/app_sizes.dart';
+
 class ViewComponent extends StatelessWidget {
   const ViewComponent({
     super.key,
@@ -15,14 +17,14 @@ class ViewComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding:  EdgeInsets.symmetric(horizontal:AppSizes.pw16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             title,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: AppSizes.sp16,
               fontWeight: FontWeight.w700,
               color: color ?? Color(0XFFFFFCFC),
             ),
@@ -33,7 +35,7 @@ class ViewComponent extends StatelessWidget {
             child: Text(
               "View all",
               style: TextStyle(
-                fontSize: 14,
+                fontSize:AppSizes.sp14,
                 fontWeight: FontWeight.w400,
                 color: color ?? Color(0XFFFFFCFC),
                 decoration: TextDecoration.underline,

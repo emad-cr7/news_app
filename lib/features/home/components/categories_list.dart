@@ -4,6 +4,7 @@ import 'package:news_app/features/home/components/view_component.dart';
 import 'package:news_app/features/home/home_controller.dart';
 import 'package:provider/provider.dart';
 
+import '../../../core/constants/app_sizes.dart';
 import '../categories_screen.dart';
 
 class CategoriesList extends StatelessWidget {
@@ -35,20 +36,20 @@ class CategoriesList extends StatelessWidget {
                     },
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(
-                      top: 12,
-                      left: 16,
-                      bottom: 24,
+                    padding: EdgeInsets.only(
+                      top: AppSizes.ph16,
+                      left: AppSizes.pw16,
+                      bottom: AppSizes.ph16,
                     ),
                     child: SizedBox(
-                      height: 35,
+                      height: AppSizes.h35,
                       child: ListView.separated(
                         separatorBuilder: (BuildContext context, int index) {
-                          return SizedBox(width: 12);
+                          return SizedBox(width: AppSizes.pw12);
                         },
                         itemCount: categories.length,
                         scrollDirection: Axis.horizontal,
-                        padding: EdgeInsets.only(right: 16),
+                        padding: EdgeInsets.only(right: AppSizes.pw16),
                         itemBuilder: (BuildContext context, int index) {
                           bool isSelected =
                               categories[index] == controller.selectedCategory;
@@ -66,16 +67,16 @@ class CategoriesList extends StatelessWidget {
                                         categories[index].substring(1),
                                     style: TextStyle(
                                       color: Color(0XFF363636),
-                                      fontSize: 16,
+                                      fontSize: AppSizes.sp16,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
                                 ),
                                 if (isSelected) ...[
-                                  SizedBox(height: 4),
+                                  SizedBox(height: AppSizes.ph4),
 
                                   Container(
-                                    height: 2,
+                                    height: AppSizes.h2,
                                     color: LightColor.primaryColor,
                                   ),
                                 ],

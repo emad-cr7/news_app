@@ -1,33 +1,34 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:news_app/features/home/models/news_article_model.dart';
-
+import '../../../core/constants/app_sizes.dart';
 import '../../../core/extentions/date_time_extention.dart';
 import '../../../core/widget/Custom_cached_network_image.dart';
 import '../../../core/widget/custom_svg_picture.dart';
 
-class NewsItemCategorie extends StatelessWidget {
-  const NewsItemCategorie({super.key, required this.model});
+class NewsItem extends StatelessWidget {
+
+  const NewsItem({super.key, required this.model});
 
   final NewsArticleModel model ;
 
   @override
   Widget build(BuildContext context) {
+
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 8,
+      padding:  EdgeInsets.symmetric(
+        horizontal:AppSizes.h16,
+        vertical: AppSizes.w8,
       ),
       child: Row(
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(AppSizes.r8),
             child: CustomCachedNetworkImage(
               imagePath: model.urlToImage ?? "",
             ),
           ),
-          const SizedBox(width: 8),
+           SizedBox(width: AppSizes.pw8),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -35,23 +36,27 @@ class NewsItemCategorie extends StatelessWidget {
               children: [
                 Text(
                   model.title ?? "",
-                  style: const TextStyle(
-                    fontSize: 16,
+                  style:  TextStyle(
+                    fontSize: AppSizes.sp16,
                     fontWeight: FontWeight.w400,
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 8),
+                 SizedBox(height: AppSizes.ph8),
                 Row(
                   children: [
                     CircleAvatar(
-                      backgroundImage: model.urlToImage != null
-                          ? NetworkImage(model.urlToImage!)
-                          : null,
-                      radius: 12,
+                      radius: AppSizes.r12,
+                      child: ClipOval(
+                        child: CustomCachedNetworkImage(
+                          imagePath: model.urlToImage ?? "",
+                          height:AppSizes.h24,
+                          width:AppSizes.w24,
+                        ),
+                      ),
                     ),
-                    SizedBox(width: 6),
+                    SizedBox(width: AppSizes.pw6),
                     Expanded(
                       child: Row(
                         children: [
@@ -68,19 +73,19 @@ class NewsItemCategorie extends StatelessWidget {
                             style: TextStyle(
                               color: Color(0XFF141414),
 
-                              fontSize: 12,
+                              fontSize:AppSizes.sp12,
                               fontWeight: FontWeight.w400,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          SizedBox(width: 8),
+                          SizedBox(width: AppSizes.pw8),
                           Expanded(
                             child: Text(
                               model.publishedAt.formatDateTime(),
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 color: Color(0XFF141414),
-                                fontSize: 12,
+                                fontSize: AppSizes.sp12,
                                 fontWeight: FontWeight.w400,
                               ),
                             ),

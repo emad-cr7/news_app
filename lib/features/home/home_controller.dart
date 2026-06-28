@@ -4,26 +4,32 @@ import '../../core/api/remote_data/api_service.dart';
 import '../../core/enums/request_status.dart';
 import 'models/news_article_model.dart';
 
+
+
 class HomeController with ChangeNotifier {
   HomeController() {
     getTopHeadLine();
     getEverything();
   }
 
+
+
+
   RequestStatus everythingLoading = RequestStatus.loading;
   RequestStatus topHeadLineLoading = RequestStatus.loading;
-
   List<NewsArticleModel> newsTopHeadLineList = [];
   List<NewsArticleModel> newsEverythingList = [];
-
   ApiService apiService = ApiService();
   String? errorMessage;
   String? selectedCategory;
 
+
+
+
+
   void getTopHeadLine({String? category}) async {
     try {
       topHeadLineLoading = RequestStatus.loading;
-
       notifyListeners();
 
       Map<String, dynamic> resalt = await apiService.get(

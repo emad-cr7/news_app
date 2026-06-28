@@ -11,9 +11,7 @@ class CustomCachedNetworkImage extends StatelessWidget {
   });
 
   final String imagePath;
-
   final double? height;
-
   final double? width;
 
   @override

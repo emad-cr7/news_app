@@ -78,7 +78,7 @@ class CategoriesScreen extends StatelessWidget {
                       itemCount: controller.newsTopHeadLineList.length,
                       itemBuilder: (BuildContext context, int index) {
                         final model = controller.newsTopHeadLineList[index];
-                        return NewsItemCategorie(model: model);
+                        return NewsItem(model: model);
                       },
                     ),
                   ),
