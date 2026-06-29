@@ -3,9 +3,13 @@ import '../../../core/api/remote_data/api_service.dart';
 import '../models/news_article_model.dart';
 
 class NewsRepository {
+
   ApiService apiService = ApiService();
 
-  Future<List<NewsArticleModel>> getTopHeadLine({String? selectedCategory,}) async {
+
+
+
+  Future<List<NewsArticleModel>> getTopHeadLine({String? selectedCategory = "general",}) async {
     Map<String, dynamic> resalt = await apiService.get(
       ApiConfig.topHeadlines,
       params: {"country": "us", "category": selectedCategory},

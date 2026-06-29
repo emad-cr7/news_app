@@ -26,10 +26,6 @@ class HomeController with ChangeNotifier {
 
   NewsRepository newsRepository ;
 
-
-
-
-
   void getTopHeadLine({String? category}) async {
     try {
       topHeadLineLoading = RequestStatus.loading;
