@@ -17,7 +17,7 @@ class NewsItem extends StatelessWidget {
 
     return Padding(
       padding:  EdgeInsets.symmetric(
-        horizontal:AppSizes.h16,
+        horizontal:AppSizes.sp20,
         vertical: AppSizes.w8,
       ),
       child: Row(

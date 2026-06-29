@@ -1,12 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:news_app/features/home/home_controller.dart';
 import 'package:provider/provider.dart';
-
-import '../../core/extentions/date_time_extention.dart';
 import '../../core/theme/light_color.dart';
-import '../../core/widget/Custom_cached_network_image.dart';
 import 'components/news_item_categorie.dart';
 
 class CategoriesScreen extends StatelessWidget {
@@ -49,8 +44,7 @@ class CategoriesScreen extends StatelessWidget {
                                     );
                                   },
                                   child: Text(
-                                    categories[index][0].toUpperCase() +
-                                        categories[index].substring(1),
+                                    categories[index][0].toUpperCase() + categories[index].substring(1),
                                     style: TextStyle(
                                       color: Color(0XFF363636),
                                       fontSize: 16,

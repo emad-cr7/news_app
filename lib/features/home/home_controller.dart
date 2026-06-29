@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:news_app/features/home/repos/news_repository.dart';
-import '../../core/api/remote_data/api_config.dart';
-import '../../core/api/remote_data/api_service.dart';
 import '../../core/enums/request_status.dart';
 import 'models/news_article_model.dart';
 
@@ -12,6 +10,7 @@ class HomeController with ChangeNotifier {
     getTopHeadLine();
     getEverything();
   }
+  bool isDispose = false ;
 
 
   RequestStatus everythingLoading = RequestStatus.loading;
@@ -24,12 +23,12 @@ class HomeController with ChangeNotifier {
   String? selectedCategory;
 
 
-  NewsRepository newsRepository ;
+ final BaseNewsRepository newsRepository ;
 
   void getTopHeadLine({String? category}) async {
     try {
       topHeadLineLoading = RequestStatus.loading;
-      notifyListeners();
+      notify();
 
     newsTopHeadLineList = await newsRepository.getTopHeadLine(selectedCategory: selectedCategory );
 
@@ -39,7 +38,7 @@ class HomeController with ChangeNotifier {
       topHeadLineLoading = RequestStatus.error;
       errorMessage = e.toString();
     }
-    notifyListeners();
+    notify();
   }
 
   void getEverything() async {
@@ -51,12 +50,24 @@ class HomeController with ChangeNotifier {
       everythingLoading = RequestStatus.error;
       errorMessage = e.toString();
     }
-    notifyListeners();
+    notify();
   }
 
   void updateSelectedCategory(String category) {
     selectedCategory = category;
     getTopHeadLine(category: selectedCategory);
+    notify();
+  }
+
+  notify(){
+    if(!isDispose)
     notifyListeners();
+
+  }
+
+  @override
+  void dispose() {
+    isDispose = true ;
+    super.dispose();
   }
 }
