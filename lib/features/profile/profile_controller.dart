@@ -1,0 +1,12 @@
+import 'package:flutter/foundation.dart';
+import 'package:image_picker/image_picker.dart';
+
+import '../../core/mixins/safe_notify_mixin.dart';
+
+class ProfileController extends ChangeNotifier with SafeNotifyMixin {
+  XFile? selectedImage;
+  void pickImage(ImageSource source) async {
+    selectedImage = await ImagePicker().pickImage(source: source);
+    safeNotify();
+  }
+}

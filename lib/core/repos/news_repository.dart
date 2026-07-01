@@ -1,12 +1,12 @@
 import '../../../core/api/remote_data/api_config.dart';
 import '../../../core/api/remote_data/api_service.dart';
-import '../models/news_article_model.dart';
+import '../../features/home/models/news_article_model.dart';
 
 
 abstract class BaseNewsRepository{
 
   Future<List<NewsArticleModel>> getTopHeadLine({String? selectedCategory = "general",});
-  Future<List<NewsArticleModel>> getEverything();
+  Future<List<NewsArticleModel>> getEverything({String? query = "news"});
 }
 
 class NewsRepository extends BaseNewsRepository{
@@ -18,24 +18,22 @@ class NewsRepository extends BaseNewsRepository{
   @override
   Future<List<NewsArticleModel>>
   getTopHeadLine({String? selectedCategory = "general",}) async {
-    Map<String, dynamic> resalt = await ApiService().get(
+    Map<String, dynamic> result = await ApiService().get(
       ApiConfig.topHeadlines,
       params: {"country": "us", "category": selectedCategory},
     );
 
-    return (resalt[ApiConfig.articles] as List)
+    return (result[ApiConfig.articles] as List)
         .map((e) => NewsArticleModel.fromJson(e))
         .toList();
   }
 
   @override
-  Future<List<NewsArticleModel>>
-  getEverything() async {
-    Map<String, dynamic> resalt = await ApiService().get(
-      ApiConfig.everything,
-      params: {"q": "news"},
+  Future<List<NewsArticleModel>> getEverything({String? query = "news"}) async {
+    Map<String, dynamic> result = await ApiService().get(ApiConfig.everything,
+      params: {"q": query},
     );
-    return (resalt[ApiConfig.articles] as List)
+    return (result[ApiConfig.articles] as List)
         .map((e) => NewsArticleModel.fromJson(e))
         .toList();
   }

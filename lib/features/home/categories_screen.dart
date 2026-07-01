@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/features/home/home_controller.dart';
 import 'package:provider/provider.dart';
 import '../../core/theme/light_color.dart';
@@ -17,20 +18,20 @@ class CategoriesScreen extends StatelessWidget {
               return Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(
-                      top: 12,
-                      left: 16,
-                      bottom: 24,
+                    padding:  EdgeInsets.only(
+                      top: AppSizes.ph20,
+                      left: AppSizes.pw12,
+                      bottom: AppSizes.ph12,
                     ),
                     child: SizedBox(
-                      height: 35,
+                      height:AppSizes.h35,
                       child: ListView.separated(
                         separatorBuilder: (BuildContext context, int index) {
-                          return SizedBox(width: 12);
+                          return SizedBox(width:AppSizes.w12);
                         },
                         itemCount: categories.length,
                         scrollDirection: Axis.horizontal,
-                        padding: EdgeInsets.only(right: 16),
+                        padding: EdgeInsets.only(right:AppSizes.pw12),
                         itemBuilder: (BuildContext context, int index) {
                           bool isSelected =
                               categories[index] == controller.selectedCategory;
@@ -47,16 +48,16 @@ class CategoriesScreen extends StatelessWidget {
                                     categories[index][0].toUpperCase() + categories[index].substring(1),
                                     style: TextStyle(
                                       color: Color(0XFF363636),
-                                      fontSize: 16,
+                                      fontSize: AppSizes.h16,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
                                 ),
                                 if (isSelected) ...[
-                                  SizedBox(height: 4),
+                                  SizedBox(height:AppSizes.h4),
 
                                   Container(
-                                    height: 2,
+                                    height:AppSizes.h2,
                                     color: LightColor.primaryColor,
                                   ),
                                 ],

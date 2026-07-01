@@ -6,16 +6,15 @@ abstract class BaseApiService {
   Future<dynamic> get(String endpoint, {Map<String, dynamic>? params});
 }
 
-
-
-
 class ApiService extends BaseApiService{
 
   @override
   Future<dynamic> get(String endpoint, {Map<String, dynamic>? params}) async {
-    var url = Uri.http(ApiConfig.baseUrl, "v2/$endpoint", {
-      "apiKey": ApiConfig.apiKey,
+    var url = Uri.http(
+        ApiConfig.baseUrl, "v2/$endpoint",
 
+     {
+      "apiKey": ApiConfig.apiKey,
       ...?params,
     });
 
@@ -26,5 +25,6 @@ class ApiService extends BaseApiService{
     } catch (e) {
       throw Exception("failed to data ");
     }
+
   }
 }
