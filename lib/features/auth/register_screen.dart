@@ -14,6 +14,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController emailController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey();
@@ -43,6 +44,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return;
     } else {
       await PreferencesManager().setString("user_email", emailController.text);
+      await PreferencesManager().setString("user_name", nameController.text);
       await PreferencesManager().setString(
         "user_password",
         passwordController.text,
@@ -53,7 +55,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         errorMessage = null;
         isLoading = false;
       });
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (BuildContext context) {
@@ -71,14 +73,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: SingleChildScrollView(
         child: Container(
           width: double.infinity,
-          height:  MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage("assets/images/background.png"),
             ),
           ),
           child: Padding(
-            padding:  EdgeInsets.all(AppSizes.w16),
+            padding: EdgeInsets.all(AppSizes.w16),
             child: Form(
               key: _key,
               child: Column(
@@ -86,43 +88,58 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Center(
-                    child: Image.asset("assets/images/logo.png", height:AppSizes.h45),
+                    child: Image.asset(
+                      "assets/images/logo.png",
+                      height: AppSizes.h45,
+                    ),
                   ),
-                  SizedBox(height:AppSizes.ph24),
+                  SizedBox(height: AppSizes.ph24),
                   Text(
                     "Welcome to Newts",
                     style: Theme.of(context).textTheme.displaySmall,
                   ),
-                  SizedBox(height:AppSizes.ph16),
+                  SizedBox(height: AppSizes.ph16),
+                  CustomTextFromField(
+                    obscureText: false,
+                    controller: nameController,
+                    title: 'Name',
+                    hint: 'John Doe',
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return "Please enter your full name";
+                      }
+                    },
+                  ),
+                  SizedBox(height: AppSizes.ph12),
                   CustomTextFromField(
                     obscureText: false,
                     controller: emailController,
                     title: 'Email',
-                    hint: 'Enter Email',
+                    hint: 'example@email.com',
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return "Please Enter Email";
+                        return "Enter your email address";
                       }
                       RegExp emailRegExp = RegExp(
                         r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
                       );
 
                       if (!emailRegExp.hasMatch(value)) {
-                        return "Please Enter Valid Email";
+                        return "Please Enter Valid Email_%+-]+@[a-zA-Z0-9.-]";
                       } else {
                         return null;
                       }
                     },
                   ),
-                  SizedBox(height:AppSizes.ph12),
+                  SizedBox(height: AppSizes.ph12),
                   CustomTextFromField(
                     obscureText: isPassword ? false : true,
                     controller: passwordController,
                     title: 'Password',
-                    hint: 'Enter Password',
+                    hint: '••••••••',
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return "Please Enter Password";
+                        return "Please enter a password";
                       }
                     },
                     suffix: IconButton(
@@ -136,7 +153,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           : Icon(Icons.visibility_off),
                     ),
                   ),
-                  SizedBox(height:AppSizes.ph12),
+                  SizedBox(height: AppSizes.ph12),
                   CustomTextFromField(
                     obscureText: isConfirmPassword ? false : true,
                     controller: confirmPasswordController,
@@ -149,7 +166,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       }
                     },
                     title: 'Confirm Password',
-                    hint: 'Enter Confirm Password',
+                    hint: 'Re-enter your password',
                     suffix: IconButton(
                       onPressed: () {
                         setState(() {
@@ -163,13 +180,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   if (errorMessage != null)
                     Padding(
-                      padding:  EdgeInsets.symmetric(vertical: AppSizes.ph6),
+                      padding: EdgeInsets.symmetric(vertical: AppSizes.ph6),
                       child: Text(
                         errorMessage!,
                         style: TextStyle(color: Colors.red),
                       ),
                     ),
-                  SizedBox(height:AppSizes.ph20),
+                  SizedBox(height: AppSizes.ph20),
                   Center(
                     child: ElevatedButton(
                       onPressed: () {
@@ -187,7 +204,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           : Text("Sign Up"),
                     ),
                   ),
-                  SizedBox(height:AppSizes.ph20),
+                  SizedBox(height: AppSizes.ph20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

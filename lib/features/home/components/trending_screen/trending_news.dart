@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/extentions/date_time_extention.dart';
 import '../../../../core/widget/Custom_cached_network_image.dart';
+import '../../../detalis_screen/news_details_screen.dart';
 
 class TrendingNews extends StatelessWidget {
   const TrendingNews({super.key});
@@ -40,141 +41,157 @@ class TrendingNews extends StatelessWidget {
                   SizedBox(
                     height: AppSizes.h140,
                     child: Consumer<HomeController>(
-                      builder:
-                          (
-                            BuildContext context,
-                            HomeController controller,
-                            Widget? child,
-                          ) {
-                            switch (controller.everythingLoading) {
-                              case RequestStatus.loading:
-                                return TrendingNewsShimmer();
-                              case RequestStatus.error:
-                                return Center(
-                                  child: Text(controller.errorMessage!),
-                                );
-                              case RequestStatus.loaded:
-                                return ListView.separated(
-                                  padding: EdgeInsets.only(left:AppSizes.pw16),
-                                  itemCount: controller.newsEverythingList
-                                      .take(10)
-                                      .length,
-                                  scrollDirection: Axis.horizontal,
-                                  separatorBuilder:
-                                      (BuildContext context, int index) =>
-                                          SizedBox(width: AppSizes.pw12),
-                                  itemBuilder: (BuildContext context, int index) {
-                                    final model =
-                                        controller.newsEverythingList[index];
-                                    return SizedBox(
-                                      width: AppSizes.w240,
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadiusGeometry.circular(AppSizes.r12),
-                                        child: Stack(
-                                          children: [
-                                            CustomCachedNetworkImage(
-                                              imagePath: model.urlToImage ?? "",
-                                              height:AppSizes.h140,
-                                              width:AppSizes.w240,
-                                            ),
-                                            Positioned.fill(
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  gradient: LinearGradient(
-                                                    begin: Alignment.topCenter,
-                                                    end: Alignment.bottomCenter,
-                                                    colors: ([
-                                                      Colors.black.withValues(
-                                                        alpha: 0.5,
-                                                      ),
-                                                      Colors.black.withValues(
-                                                        alpha: 0.7,
-                                                      ),
-                                                    ]),
-                                                  ),
+                      builder: (BuildContext context, HomeController controller, Widget? child) {
+                        switch (controller.everythingLoading) {
+                          case RequestStatus.loading:
+                            return TrendingNewsShimmer();
+                          case RequestStatus.error:
+                            return Center(
+                              child: Text(controller.errorMessage!),
+                            );
+                          case RequestStatus.loaded:
+                            return ListView.separated(
+                              padding: EdgeInsets.only(left: AppSizes.pw16),
+                              itemCount: controller.newsEverythingList
+                                  .take(10)
+                                  .length,
+                              scrollDirection: Axis.horizontal,
+                              separatorBuilder:
+                                  (BuildContext context, int index) =>
+                                      SizedBox(width: AppSizes.pw12),
+                              itemBuilder: (BuildContext context, int index) {
+                                final model =
+                                    controller.newsEverythingList[index];
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) {
+                                          return NewsDetailsScreen(
+                                            model: model,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  },
+                                  child: SizedBox(
+                                    width: AppSizes.w240,
+                                    child: ClipRRect(
+                                      borderRadius:
+                                          BorderRadiusGeometry.circular(
+                                            AppSizes.r12,
+                                          ),
+                                      child: Stack(
+                                        children: [
+                                          CustomCachedNetworkImage(
+                                            imagePath: model.urlToImage ?? "",
+                                            height: AppSizes.h140,
+                                            width: AppSizes.w240,
+                                          ),
+                                          Positioned.fill(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                  begin: Alignment.topCenter,
+                                                  end: Alignment.bottomCenter,
+                                                  colors: ([
+                                                    Colors.black.withValues(
+                                                      alpha: 0.5,
+                                                    ),
+                                                    Colors.black.withValues(
+                                                      alpha: 0.7,
+                                                    ),
+                                                  ]),
                                                 ),
                                               ),
                                             ),
-                                            Positioned(
-                                              bottom:AppSizes.ph12,
-                                              left: AppSizes.pw12,
-                                              right: AppSizes.pw12,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    model.title ?? "No title",
-                                                    style: TextStyle(
-                                                      fontSize: AppSizes.sp14,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      color: Colors.white,
-                                                    ),
-                                                    maxLines: 2,
+                                          ),
+                                          Positioned(
+                                            bottom: AppSizes.ph12,
+                                            left: AppSizes.pw12,
+                                            right: AppSizes.pw12,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  model.title ?? "No title",
+                                                  style: TextStyle(
+                                                    fontSize: AppSizes.sp14,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: Colors.white,
                                                   ),
-                                                  SizedBox(height: AppSizes.ph6),
-                                                  Row(
-                                                    children: [
-                                                      Expanded(
-                                                        child: Row(
-                                                          children: [
-                                                            CircleAvatar(
-                                                              backgroundImage:
-                                                                  model.urlToImage !=
-                                                                      null
-                                                                  ? NetworkImage(
-                                                                      model
-                                                                          .urlToImage!,
-                                                                    )
-                                                                  : null,
-                                                              radius: AppSizes.r12,
-                                                            ),
-                                                            SizedBox(width: AppSizes.ph6),
-                                                            Expanded(
-                                                              child: Text(
-                                                                model.author ??
-                                                                    "No author",
-                                                                style: TextStyle(
-                                                                  fontSize: AppSizes.sp12,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
-                                                                maxLines: 1,
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              model.publishedAt
-                                                                  .formatDateTime(),
+                                                  maxLines: 2,
+                                                ),
+                                                SizedBox(height: AppSizes.ph6),
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: Row(
+                                                        children: [
+                                                          CircleAvatar(
+                                                            backgroundImage:
+                                                                model.urlToImage !=
+                                                                    null
+                                                                ? NetworkImage(
+                                                                    model
+                                                                        .urlToImage!,
+                                                                  )
+                                                                : null,
+                                                            radius:
+                                                                AppSizes.r12,
+                                                          ),
+                                                          SizedBox(
+                                                            width: AppSizes.ph6,
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(
+                                                              model.author ??
+                                                                  "No author",
                                                               style: TextStyle(
-                                                                fontSize: AppSizes.sp12,
+                                                                fontSize:
+                                                                    AppSizes
+                                                                        .sp12,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w400,
                                                                 color: Colors
                                                                     .white,
                                                               ),
+                                                              maxLines: 1,
                                                             ),
-                                                          ],
-                                                        ),
+                                                          ),
+                                                          Text(
+                                                            model.publishedAt
+                                                                .formatDateTime(),
+                                                            style: TextStyle(
+                                                              fontSize:
+                                                                  AppSizes.sp12,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                    );
-                                  },
+                                    ),
+                                  ),
                                 );
-                            }
-                          },
+                              },
+                            );
+                        }
+                      },
                     ),
                   ),
                 ],

@@ -4,7 +4,6 @@ import 'package:news_app/features/onboarding/onbording_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../core/constants/app_sizes.dart';
-import '../../core/widget/Custom_elevated_button.dart';
 import '../auth/sign_in_screen.dart';
 import 'models/onboarding_model.dart';
 
@@ -56,7 +55,10 @@ class Onboarding extends StatelessWidget {
             ],
           ),
           body: Padding(
-            padding: EdgeInsets.symmetric(vertical: AppSizes.ph30, horizontal: AppSizes.pw16),
+            padding: EdgeInsets.symmetric(
+              vertical: AppSizes.ph30,
+              horizontal: AppSizes.pw16,
+            ),
             child: Column(
               children: [
                 Expanded(
@@ -71,7 +73,7 @@ class Onboarding extends StatelessWidget {
                       return Column(
                         children: [
                           Image.asset(model.image),
-                          SizedBox(height:AppSizes.ph24),
+                          SizedBox(height: AppSizes.ph24),
                           Text(
                             model.title,
                             style: Theme.of(context).textTheme.displaySmall,
@@ -101,8 +103,7 @@ class Onboarding extends StatelessWidget {
                         Widget? child,
                       ) {
                         final controller = context.read<OnbordingController>();
-                        return CustomElevatedButton(
-                          title: controller.isLastPage ? 'Get Started' : "Next",
+                        return ElevatedButton(
                           onPressed: () {
                             if (!controller.isLastPage) {
                               controller.pageController.nextPage(
@@ -113,6 +114,9 @@ class Onboarding extends StatelessWidget {
                               _onFinish(context);
                             }
                           },
+                          child: Text(
+                            controller.isLastPage ? 'Get Started' : "Next",
+                          ),
                         );
                       },
                 ),

@@ -13,14 +13,16 @@ ThemeData lightTheme = ThemeData(
   scaffoldBackgroundColor: Color(0xfff5f5f5),
   appBarTheme: AppBarTheme(
     backgroundColor: Color(0xffFFFFFF),
-    titleTextStyle: TextStyle(color: Color(0xff000000), fontSize: AppSizes.sp16 , fontWeight: FontWeight.w700),
+    titleTextStyle: TextStyle(
+      color: Color(0xff000000),
+      fontSize: AppSizes.sp16,
+      fontWeight: FontWeight.w700,
+    ),
     iconTheme: IconThemeData(color: Color(0xff000000)),
     centerTitle: true,
     scrolledUnderElevation: 0,
   ),
-  progressIndicatorTheme: ProgressIndicatorThemeData(
-    color: Colors.white
-  ),
+  progressIndicatorTheme: ProgressIndicatorThemeData(color: Colors.white),
   // switchTheme: SwitchThemeData(
   //   trackColor: WidgetStateProperty.resolveWith((states) {
   //     if (states.contains(WidgetState.selected)) {
@@ -43,15 +45,17 @@ ThemeData lightTheme = ThemeData(
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: LightColor.primaryColor,
-      foregroundColor: (Color(0xffFFFCFC)),
-      textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-      minimumSize: Size.fromHeight(AppSizes.h52)
+      foregroundColor: Color(0xFFFFFCFC),
+      textStyle: TextStyle(
+        fontSize: AppSizes.sp16,
+        fontWeight: FontWeight.w400,
+      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+      minimumSize: Size.fromHeight(AppSizes.h52),
     ),
   ),
   textButtonTheme: TextButtonThemeData(
-    style:
-
-    TextButton.styleFrom(foregroundColor: LightColor.primaryColor),
+    style: TextButton.styleFrom(foregroundColor: LightColor.primaryColor),
   ),
   // floatingActionButtonTheme: FloatingActionButtonThemeData(
   //   backgroundColor: (Color(0xff15B86C)),
@@ -92,8 +96,14 @@ ThemeData lightTheme = ThemeData(
       decorationColor: LightColor.primaryColor,
       overflow: TextOverflow.ellipsis,
     ),
-    labelSmall: TextStyle(color: LightColor.primaryColor, fontSize: AppSizes.sp20),
-    labelMedium: TextStyle(color: LightColor.primaryColor, fontSize: AppSizes.sp16),
+    labelSmall: TextStyle(
+      color: LightColor.primaryColor,
+      fontSize: AppSizes.sp20,
+    ),
+    labelMedium: TextStyle(
+      color: LightColor.primaryColor,
+      fontSize: AppSizes.sp16,
+    ),
   ),
   inputDecorationTheme: InputDecorationTheme(
     hintStyle: TextStyle(color: Color(0XFF9E9E9E)),
@@ -126,7 +136,10 @@ ThemeData lightTheme = ThemeData(
   iconTheme: IconThemeData(color: Color(0xff161F1B)),
   dividerTheme: DividerThemeData(color: LightColor.backgroundTextField),
   listTileTheme: ListTileThemeData(
-    titleTextStyle: TextStyle(color: Color(0XFF161F1B), fontSize: AppSizes.sp20),
+    titleTextStyle: TextStyle(
+      color: Color(0XFF161F1B),
+      fontSize: AppSizes.sp20,
+    ),
   ),
   textSelectionTheme: TextSelectionThemeData(
     cursorColor: Colors.black,

@@ -19,6 +19,7 @@ class AppSizes {
   static double get h4 => 4.h;
   static double get h10 => 10.h;
   static double get h12 => 12.h;
+  static double get h18 => 18.h;
   static double get h15 => 15.h;
   static double get h16 => 16.h;
   static double get h20 => 20.h;
@@ -39,14 +40,18 @@ class AppSizes {
   static double get h310 => 310.h;
   static double get h240 => 240.h;
   static double get h242 => 242.h;
+  static double get h228 => 228.h;
+
 
   /// width
   static double get w2 => 2.w;
   static double get w8 => 8.w;
   static double get w12 => 12.w;
+  static double get w14 => 14.w;
   static double get w15 => 15.w;
   static double get w16 => 16.w;
   static double get w24 => 24.w;
+  static double get w32 => 32.w;
   static double get w34 => 34.w;
   static double get w42 => 42.w;
   static double get w45 => 45.w;
@@ -54,6 +59,8 @@ class AppSizes {
   static double get w200 => 200.w;
   static double get w235 => 235.w;
   static double get w240 => 240.w;
+  static double get w343 => 343.w;
+
 
   /// padding height
   static double get ph4 => 4.h;

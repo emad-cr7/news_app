@@ -1,16 +1,15 @@
 import 'dart:io';
-
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/theme/light_color.dart';
 import 'package:news_app/features/auth/sign_in_screen.dart';
 import 'package:news_app/features/profile/profile_controller.dart';
-import 'package:news_app/features/splash/splash_screen.dart';
 import 'package:provider/provider.dart';
-
 import '../../core/api/local_data/servies/preferences_manager.dart';
 import '../../core/widget/custom_svg_picture.dart';
+import 'bottom_sheet/profile_info_bottom_sheet.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
@@ -18,7 +17,7 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<ProfileController>(
-      create: (BuildContext context) => ProfileController(),
+      create: (BuildContext context) => ProfileController()..getUserDate(),
       child: Scaffold(
         appBar: AppBar(title: Text("Profile")),
         body: Padding(
@@ -33,94 +32,120 @@ class Profile extends StatelessWidget {
                   ProfileController controller,
                   Widget? child,
                 ) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Center(
-                        child: Stack(
-                          alignment: Alignment.bottomRight,
+                  return SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: Stack(
+                            alignment: Alignment.bottomRight,
 
-                          children: [
-                            CircleAvatar(
-                              backgroundImage: controller.selectedImage == null
-                                  ? AssetImage("assets/images/profile.png")
-                                  : FileImage(
-                                      File(controller.selectedImage!.path),
-                                    ),
-                              radius: AppSizes.r60,
-                              backgroundColor: Colors.transparent,
-                            ),
-                            GestureDetector(
-                              onTap: () async {
-                                showImageSourceDialog(context);
-                              },
-                              child: Container(
-                                width: AppSizes.w34,
-                                height: AppSizes.h34,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(
-                                    AppSizes.r100,
-                                  ),
-                                  border: Border.all(color: Color(0xffD1DAD6)),
-
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.primaryContainer,
-                                ),
-                                child: Icon(Icons.camera_alt_outlined),
+                            children: [
+                              CircleAvatar(
+                                backgroundImage:
+                                    controller.selectedImage == null
+                                    ? AssetImage("assets/images/profile.png")
+                                    : FileImage(
+                                        File(controller.selectedImage!.path),
+                                      ),
+                                radius: AppSizes.r60,
+                                backgroundColor: Colors.transparent,
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: AppSizes.h8),
+                              GestureDetector(
+                                onTap: () async {
+                                  showImageSourceDialog(context);
+                                },
+                                child: Container(
+                                  width: AppSizes.w34,
+                                  height: AppSizes.h34,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                      AppSizes.r100,
+                                    ),
+                                    border: Border.all(
+                                      color: Color(0xffD1DAD6),
+                                    ),
 
-                      Center(
-                        child: Text(
-                          PreferencesManager().getString("user_email") ?? "",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0XFF161F1B),
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primaryContainer,
+                                  ),
+                                  child: Icon(Icons.camera_alt_outlined),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                      SizedBox(height: AppSizes.h16),
+                        SizedBox(height: AppSizes.h8),
 
-                      _buildItem(
-                        "Personal Info",
-                        "assets/images/person.svg",
-                        () {},
-                      ),
-                      _buildItem(
-                        "Language",
-                        "assets/images/language.svg",
-                        () {},
-                      ),
-                      _buildItem("Country", "assets/images/Country.svg", () {}),
-                      _buildItem(
-                        "Terms & Conditions",
-                        "assets/images/description.svg",
-                        () {},
-                      ),
-                      _buildItem(
-                        "Logout",
-                        "assets/images/log_out.svg",
-                        color: LightColor.primaryColor,
-                        withDivider: false,
-                        () async {
-                          await PreferencesManager().clear();
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) {
-                                return LoginScreen();
-                              },
+                        Center(
+                          child: Text(
+                            PreferencesManager().getString("user_name") ?? "",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0XFF161F1B),
                             ),
-                          );
-                        },
-                      ),
-                    ],
+                          ),
+                        ),
+                        SizedBox(height: AppSizes.h16),
+
+                        _buildItem(
+                          "Personal Info",
+                          "assets/images/person.svg",
+                          () {
+                            showModalBottomSheet(
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (BuildContext context) {
+                                return ProfileInfoBottomSheet();
+                              },
+                            );
+                          },
+                        ),
+                        _buildItem(
+                          "Language",
+                          "assets/images/language.svg",
+                          () {},
+                        ),
+                        _buildItem(
+
+                          controller.countryName ?? "Country",
+                          "assets/images/Country.svg",
+                          () {
+                            showCountryPicker(
+                              context: context,
+                              onSelect: (Country country) {
+                                controller.saveCountry(country);
+
+                              },
+                            );
+                          },
+                        ),
+                        _buildItem(
+                          "Terms & Conditions",
+                          "assets/images/description.svg",
+                          () {},
+                        ),
+                        _buildItem(
+                          "Logout",
+                          "assets/images/log_out.svg",
+                          color: LightColor.primaryColor,
+                          withDivider: false,
+                          () async {
+                            await PreferencesManager().clear();
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) {
+                                  return LoginScreen();
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   );
                 },
           ),
@@ -196,6 +221,7 @@ Widget _buildItem(
         leading: CustomSvgPicture.withColor(path: path),
         trailing: CustomSvgPicture.withColor(
           path: 'assets/images/chevron_right.svg',
+
           height: AppSizes.w16,
           width: AppSizes.w16,
         ),

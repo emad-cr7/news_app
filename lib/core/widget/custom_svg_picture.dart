@@ -8,18 +8,21 @@ class CustomSvgPicture extends StatelessWidget {
     this.withColorFilter = true,
     this.height,
     this.width,
+    this.color,
   });
 
   final String path;
   final double? height;
   final double? width;
   final bool withColorFilter;
+  final Color? color;
 
   const CustomSvgPicture.withColor({
     super.key,
     required this.path,
     this.height,
     this.width,
+    this.color,
   }) : withColorFilter = false;
 
   @override

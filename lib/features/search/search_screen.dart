@@ -5,6 +5,8 @@ import 'package:news_app/core/repos/news_repository.dart';
 import 'package:news_app/features/search/search_controller.dart';
 import 'package:provider/provider.dart';
 
+import '../detalis_screen/news_details_screen.dart';
+
 class SearchScreen extends StatelessWidget {
   SearchScreen({super.key});
 
@@ -46,18 +48,32 @@ class SearchScreen extends StatelessWidget {
                           padding: EdgeInsets.zero,
                           itemBuilder: (BuildContext context, int index) {
                             final model = controller.newsEverythingList[index];
-                            return Padding(
-                              padding:  EdgeInsets.all(AppSizes.w8),
-                              child: ListTile(
-                                leading: Icon(
-                                  Icons.search,
-                                  color: Color(0xffA0A0A0),
-                                  size: AppSizes.r20,
-                                ),
-                                title: Text(
-                                  model.title!,
-                                  maxLines: 1,
-                                  style: TextStyle(fontSize: AppSizes.sp16),
+                            return GestureDetector(
+                              child: Padding(
+                                padding: EdgeInsets.all(AppSizes.w8),
+                                child: ListTile(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) {
+                                          return NewsDetailsScreen(
+                                            model: model,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  },
+                                  leading: Icon(
+                                    Icons.search,
+                                    color: Color(0xffA0A0A0),
+                                    size: AppSizes.r20,
+                                  ),
+                                  title: Text(
+                                    model.title!,
+                                    maxLines: 1,
+                                    style: TextStyle(fontSize: AppSizes.sp16),
+                                  ),
                                 ),
                               ),
                             );

@@ -100,17 +100,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     obscureText: false,
                     controller: emailController,
                     title: 'Email',
-                    hint: 'Enter Email',
+                    hint: 'Enter your email',
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return "Please Enter Email";
+                        return "Please enter your email";
                       }
                       RegExp emailRegExp = RegExp(
                         r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
                       );
 
                       if (!emailRegExp.hasMatch(value)) {
-                        return "Please Enter Valid Email";
+                        return "Please Enter Valid Email_%+-]+@[a-zA-Z0-9.-]";
                       } else {
                         return null;
                       }
@@ -121,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     obscureText: isPassword ? false : true,
                     controller: passwordController,
                     title: 'Password',
-                    hint: 'Enter Password',
+                    hint: 'Please enter your password',
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
                         return "Please Enter Password";
