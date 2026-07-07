@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:news_app/core/datasource/local_data/servies/user_repository.dart';
 import 'package:news_app/core/theme/light_theme.dart';
-import 'package:news_app/features/home/home_controller.dart';
-import 'package:provider/provider.dart';
-
-import 'core/api/local_data/servies/preferences_manager.dart';
-import 'features/home/home_screen.dart';
-import 'features/main/main_screen.dart';
-import 'features/onboarding/onboarding.dart';
+import 'core/datasource/local_data/servies/preferences_manager.dart';
 import 'features/splash/splash_screen.dart';
 
 void main() async {
@@ -15,6 +10,7 @@ void main() async {
   await ScreenUtil.ensureScreenSize();
 
   await PreferencesManager().init();
+  await UserRepository().init();
 
   runApp(const MyApp());
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/core/api/local_data/servies/preferences_manager.dart';
 import 'package:news_app/features/onboarding/onbording_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../core/constants/app_sizes.dart';
+import '../../core/datasource/local_data/servies/preferences_manager.dart';
 import '../auth/sign_in_screen.dart';
 import 'models/onboarding_model.dart';
 

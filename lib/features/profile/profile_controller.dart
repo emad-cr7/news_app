@@ -1,8 +1,7 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../../core/api/local_data/servies/preferences_manager.dart';
+import '../../core/datasource/local_data/servies/preferences_manager.dart';
 import '../../core/mixins/safe_notify_mixin.dart';
 
 class ProfileController extends ChangeNotifier with SafeNotifyMixin {

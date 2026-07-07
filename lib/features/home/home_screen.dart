@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/core/api/remote_data/api_service.dart';
 import 'package:news_app/features/home/home_controller.dart';
 import 'package:provider/provider.dart';
+import '../../core/datasource/remote_data/api_service.dart';
 import '../../core/repos/news_repository.dart';
 import 'components/categories_list.dart';
 import 'components/top_headLine_screen/top_headLine.dart';

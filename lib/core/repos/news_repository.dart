@@ -1,6 +1,7 @@
-import '../../../core/api/remote_data/api_config.dart';
-import '../../../core/api/remote_data/api_service.dart';
+
 import '../../features/home/models/news_article_model.dart';
+import '../datasource/remote_data/api_config.dart';
+import '../datasource/remote_data/api_service.dart';
 
 
 abstract class BaseNewsRepository{

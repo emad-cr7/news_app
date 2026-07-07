@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/features/home/home_screen.dart';
 import 'package:news_app/features/main/main_screen.dart';
-
-import '../../core/api/local_data/servies/preferences_manager.dart';
+import '../../core/datasource/local_data/servies/preferences_manager.dart';
 import '../auth/sign_in_screen.dart';
 import '../onboarding/onboarding.dart';
 

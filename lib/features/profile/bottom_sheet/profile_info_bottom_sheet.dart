@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
-
-import '../../../core/api/local_data/servies/preferences_manager.dart';
+import 'package:news_app/core/models/user_model.dart';
+import '../../../core/datasource/local_data/servies/preferences_manager.dart';
+import '../../../core/datasource/local_data/servies/user_repository.dart';
 import '../../../core/widget/Custom_text_from_field.dart';
 
 class ProfileInfoBottomSheet extends StatefulWidget {
@@ -24,14 +25,22 @@ class _ProfileInfoBottomSheetState extends State<ProfileInfoBottomSheet> {
   }
 
   void _loadUserData() {
-    nameController.text = PreferencesManager().getString("user_name") ?? "";
-    emailController.text = PreferencesManager().getString("user_email") ?? "";
+    final UserModel? user = UserRepository().getUser();
+
+    nameController.text = user?.name ?? "";
+    emailController.text = user?.email ?? "";
   }
 
   void _saveUserData() async {
     if (_key.currentState?.validate() ?? false) {
-      await PreferencesManager().setString("user_name", nameController.text);
-      await PreferencesManager().setString("user_email", emailController.text);
+      final user = UserModel(
+        email: emailController.text,
+        name: nameController.text,
+      );
+      await UserRepository().updateUser(
+        name: nameController.text,
+        email: emailController.text,
+      );
       Navigator.pop(context);
     }
   }

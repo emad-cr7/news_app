@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/features/auth/register_screen.dart';
-import '../../core/api/local_data/servies/preferences_manager.dart';
 import '../../core/constants/app_sizes.dart';
+import '../../core/datasource/local_data/servies/user_repository.dart';
 import '../../core/widget/Custom_text_from_field.dart';
-import '../main/main_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -27,35 +26,18 @@ class _LoginScreenState extends State<LoginScreen> {
       isLoading = true;
     });
     await Future.delayed(Duration(seconds: 3));
+   final String? error = UserRepository().login(emailController.text, passwordController.text) ;
 
-    final savedEmail = PreferencesManager().getString("user_email");
-    final savedPassword = PreferencesManager().getString("user_password");
-    if (savedEmail == null || savedPassword == null) {
+
+
+    if (error != null ) {
       setState(() {
-        errorMessage = "No Account Found Please Register First ";
+        errorMessage = error;
         isLoading = false;
       });
       return;
     }
-    if (savedEmail != emailController.text || savedPassword != passwordController.text) {
-      setState(() {
-        errorMessage = "Incorrect Email or Password";
-        isLoading = false;
-      });
-      return;
-    }
-    await PreferencesManager().setBool('is_logged_in', true);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return MainScreen();
-        },
-      ),
-    );
-    setState(() {
-      isLoading = false;
-    });
+
   }
 
   @override

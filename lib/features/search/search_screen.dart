@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/core/api/remote_data/api_service.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/repos/news_repository.dart';
 import 'package:news_app/features/search/search_controller.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/datasource/remote_data/api_service.dart';
 import '../detalis_screen/news_details_screen.dart';
 
 class SearchScreen extends StatelessWidget {

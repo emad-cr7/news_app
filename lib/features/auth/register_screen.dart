@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/features/auth/sign_in_screen.dart';
 import 'package:news_app/features/main/main_screen.dart';
-import '../../core/api/local_data/servies/preferences_manager.dart';
 import '../../core/constants/app_sizes.dart';
+import '../../core/datasource/local_data/servies/preferences_manager.dart';
+import '../../core/datasource/local_data/servies/user_repository.dart';
 import '../../core/widget/Custom_text_from_field.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -33,24 +34,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
 
     await Future.delayed(Duration(seconds: 3));
+    final String? error = await UserRepository().signUp(
+      name: nameController.text,
+      email: emailController.text,
+      password: passwordController.text,
+    );
 
-    final savedEmail = PreferencesManager().getString("user_email");
-
-    if (savedEmail != null && savedEmail == emailController.text.trim()) {
+    if (error != null) {
       setState(() {
-        errorMessage = "User Already Register";
+        errorMessage = error;
         isLoading = false;
       });
       return;
     } else {
-      await PreferencesManager().setString("user_email", emailController.text);
-      await PreferencesManager().setString("user_name", nameController.text);
-      await PreferencesManager().setString(
-        "user_password",
-        passwordController.text,
-      );
-      await PreferencesManager().setBool('is_logged_in', true);
-
       setState(() {
         errorMessage = null;
         isLoading = false;

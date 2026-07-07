@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:news_app/core/api/remote_data/api_config.dart';
+
+import 'api_config.dart';
 
 abstract class BaseApiService {
   Future<dynamic> get(String endpoint, {Map<String, dynamic>? params});
