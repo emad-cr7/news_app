@@ -18,12 +18,16 @@ class UserModel {
   @HiveField(4)
   String? countryCode;
 
+  @HiveField(5)
+  bool isLoggedIn;
+
   UserModel({
     required this.name,
     required this.email,
-     this.password,
-     this.countryName,
-     this.countryCode,
+    this.password,
+    this.countryName,
+    this.countryCode,
+    this.isLoggedIn = false,
   });
 
   Map<String, dynamic> toMap() {
@@ -33,6 +37,7 @@ class UserModel {
       'password': password,
       'countryName': countryName,
       'countryCode': countryCode,
+      'isLoggedIn': isLoggedIn,
     };
   }
 
@@ -43,6 +48,7 @@ class UserModel {
       password: map['password'] as String,
       countryName: map['countryName'] as String,
       countryCode: map['countryCode'] as String,
+      isLoggedIn: map['isLoggedIn'] as bool? ?? false,
     );
   }
 
@@ -52,6 +58,7 @@ class UserModel {
     String? password,
     String? countryName,
     String? countryCode,
+    bool? isLoggedIn,
   }) {
     return UserModel(
       name: name ?? this.name,
@@ -59,6 +66,7 @@ class UserModel {
       password: password ?? this.password,
       countryName: countryName ?? this.countryName,
       countryCode: countryCode ?? this.countryCode,
+      isLoggedIn: isLoggedIn ?? this.isLoggedIn,
     );
   }
 }

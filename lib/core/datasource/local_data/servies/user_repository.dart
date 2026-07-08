@@ -35,6 +35,8 @@ class UserRepository {
     return _userBox?.get(Constant.currentUser);
   }
 
+  bool get isLoggedIn => getUser()?.isLoggedIn ?? false;
+
   Future<void> updateUser({
     String? name,
     String? email,
@@ -57,7 +59,7 @@ class UserRepository {
     }
   }
 
-  delet() async {
+  delete() async {
     await userBox.delete(Constant.currentUser);
   }
 
@@ -65,7 +67,7 @@ class UserRepository {
     await userBox.clear();
   }
 
-  String? login(String email, String password) {
+  Future<String?> login(String email, String password) async {
     final user = getUser();
 
     if (user == null) {
@@ -74,7 +76,15 @@ class UserRepository {
     if (user.email != email || user.password != password) {
       return "Incorrect Email or Password";
     }
+    await saveUser(user.copyWith(isLoggedIn: true));
     return null;
+  }
+
+  Future<void> logout() async {
+    final user = getUser();
+    if (user != null) {
+      await saveUser(user.copyWith(isLoggedIn: false));
+    }
   }
 
   Future<String?> signUp({
@@ -87,7 +97,12 @@ class UserRepository {
     if (user != null) {
       return "User Already Register";
     }
-    final newUser = UserModel(name: name, email: email, password: password);
+    final newUser = UserModel(
+      name: name,
+      email: email,
+      password: password,
+      isLoggedIn: true,
+    );
     await saveUser(newUser);
     return null;
   }

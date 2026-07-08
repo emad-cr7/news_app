@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:news_app/features/auth/sign_in_screen.dart';
 import 'package:news_app/features/main/main_screen.dart';
 import '../../core/constants/app_sizes.dart';
-import '../../core/datasource/local_data/servies/preferences_manager.dart';
 import '../../core/datasource/local_data/servies/user_repository.dart';
 import '../../core/widget/Custom_text_from_field.dart';
 

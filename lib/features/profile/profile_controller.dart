@@ -1,7 +1,7 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../core/datasource/local_data/servies/preferences_manager.dart';
+import '../../core/datasource/local_data/servies/user_repository.dart';
 import '../../core/mixins/safe_notify_mixin.dart';
 
 class ProfileController extends ChangeNotifier with SafeNotifyMixin {
@@ -20,15 +20,18 @@ class ProfileController extends ChangeNotifier with SafeNotifyMixin {
   }
 
   void getUserDate() {
-    userName = PreferencesManager().getString("user_name") ?? "";
-    countryName = PreferencesManager().getString("country_name");
-    countryCode = PreferencesManager().getString("country_code");
+    final user = UserRepository().getUser();
+    userName = user?.name ?? "";
+    countryName = user?.countryName;
+    countryCode = user?.countryCode;
     safeNotify();
   }
 
   void saveCountry(Country selectedCountry) async {
-    await PreferencesManager().setString("country_name", selectedCountry.name);
-    await PreferencesManager().setString("country_code", selectedCountry.countryCode,);
+    await UserRepository().updateUser(
+      countryName: selectedCountry.name,
+      countryCode: selectedCountry.countryCode,
+    );
 
     countryName = selectedCountry.name;
     countryCode = selectedCountry.countryCode;

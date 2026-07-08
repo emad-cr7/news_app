@@ -8,6 +8,7 @@ import 'package:news_app/features/auth/sign_in_screen.dart';
 import 'package:news_app/features/profile/profile_controller.dart';
 import 'package:provider/provider.dart';
 import '../../core/datasource/local_data/servies/preferences_manager.dart';
+import '../../core/datasource/local_data/servies/user_repository.dart';
 import '../../core/widget/custom_svg_picture.dart';
 import 'bottom_sheet/profile_info_bottom_sheet.dart';
 
@@ -133,7 +134,7 @@ class Profile extends StatelessWidget {
                           color: LightColor.primaryColor,
                           withDivider: false,
                           () async {
-                            await PreferencesManager().clear();
+                            await UserRepository().logout();
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(

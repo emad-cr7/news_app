@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news_app/features/auth/register_screen.dart';
 import '../../core/constants/app_sizes.dart';
 import '../../core/datasource/local_data/servies/user_repository.dart';
+import '../main/main_screen.dart';
 import '../../core/widget/Custom_text_from_field.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -26,11 +27,14 @@ class _LoginScreenState extends State<LoginScreen> {
       isLoading = true;
     });
     await Future.delayed(Duration(seconds: 3));
-   final String? error = UserRepository().login(emailController.text, passwordController.text) ;
+    final String? error = await UserRepository().login(
+      emailController.text,
+      passwordController.text,
+    );
 
+    if (!mounted) return;
 
-
-    if (error != null ) {
+    if (error != null) {
       setState(() {
         errorMessage = error;
         isLoading = false;
@@ -38,6 +42,18 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
+    setState(() {
+      isLoading = false;
+    });
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return MainScreen();
+        },
+      ),
+    );
   }
 
   @override
