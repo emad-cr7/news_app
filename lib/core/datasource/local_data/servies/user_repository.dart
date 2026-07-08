@@ -10,12 +10,21 @@ class UserRepository {
   factory UserRepository() => _instance;
 
   Box<UserModel>? _userBox;
+  Box? _settingsBox;
 
   Box<UserModel> get userBox {
     if (_userBox == null) {
       throw Exception("User not initialized");
     }
     return _userBox!;
+  }
+
+  bool get isOnboardingComplete =>
+      _settingsBox?.get(Constant.onboardingComplete, defaultValue: false) as bool? ??
+      false;
+
+  Future<void> setOnboardingComplete(bool value) async {
+    await _settingsBox?.put(Constant.onboardingComplete, value);
   }
 
   Future<void> init() async {
@@ -25,6 +34,7 @@ class UserRepository {
     }
 
     _userBox = await Hive.openBox<UserModel>(Constant.userBox);
+    _settingsBox = await Hive.openBox(Constant.settingsBox);
   }
 
   Future<void> saveUser(UserModel user) async {

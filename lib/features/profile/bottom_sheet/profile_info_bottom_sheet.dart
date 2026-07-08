@@ -20,7 +20,6 @@ class _ProfileInfoBottomSheetState extends State<ProfileInfoBottomSheet> {
   void initState() {
     super.initState();
     _loadUserData();
-    _saveUserData();
   }
 
   void _loadUserData() {
@@ -32,10 +31,6 @@ class _ProfileInfoBottomSheetState extends State<ProfileInfoBottomSheet> {
 
   void _saveUserData() async {
     if (_key.currentState?.validate() ?? false) {
-      final user = UserModel(
-        email: emailController.text,
-        name: nameController.text,
-      );
       await UserRepository().updateUser(
         name: nameController.text,
         email: emailController.text,

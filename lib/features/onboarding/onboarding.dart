@@ -3,7 +3,7 @@ import 'package:news_app/features/onboarding/onbording_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../core/constants/app_sizes.dart';
-import '../../core/datasource/local_data/servies/preferences_manager.dart';
+import '../../core/datasource/local_data/servies/user_repository.dart';
 import '../auth/sign_in_screen.dart';
 import 'models/onboarding_model.dart';
 
@@ -11,7 +11,7 @@ class Onboarding extends StatelessWidget {
   Onboarding({super.key});
 
   _onFinish(context) async {
-    await PreferencesManager().setBool("onboarding_complete", true);
+    await UserRepository().setOnboardingComplete(true);
     Navigator.push(
       context,
       MaterialPageRoute(

@@ -7,7 +7,6 @@ import 'package:news_app/core/theme/light_color.dart';
 import 'package:news_app/features/auth/sign_in_screen.dart';
 import 'package:news_app/features/profile/profile_controller.dart';
 import 'package:provider/provider.dart';
-import '../../core/datasource/local_data/servies/preferences_manager.dart';
 import '../../core/datasource/local_data/servies/user_repository.dart';
 import '../../core/widget/custom_svg_picture.dart';
 import 'bottom_sheet/profile_info_bottom_sheet.dart';
@@ -81,7 +80,7 @@ class Profile extends StatelessWidget {
 
                         Center(
                           child: Text(
-                            PreferencesManager().getString("user_name") ?? "",
+                            controller.userName ?? "",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w400,
@@ -101,7 +100,7 @@ class Profile extends StatelessWidget {
                               builder: (BuildContext context) {
                                 return ProfileInfoBottomSheet();
                               },
-                            );
+                            ).then((_) => controller.getUserDate());
                           },
                         ),
                         _buildItem(
