@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
+import 'package:news_app/core/datasource/local_data/user_repository.dart';
 import 'package:news_app/core/models/user_model.dart';
-import '../../../core/datasource/local_data/servies/user_repository.dart';
-import '../../../core/widget/Custom_text_from_field.dart';
+import 'package:news_app/core/widgets/custom_text_form_field.dart';
 
 class ProfileInfoBottomSheet extends StatefulWidget {
   const ProfileInfoBottomSheet({super.key});
@@ -12,27 +12,29 @@ class ProfileInfoBottomSheet extends StatefulWidget {
 }
 
 class _ProfileInfoBottomSheetState extends State<ProfileInfoBottomSheet> {
+  final TextEditingController usernameController = TextEditingController();
+
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController nameController = TextEditingController();
+
   final GlobalKey<FormState> _key = GlobalKey();
 
   @override
   void initState() {
     super.initState();
+
     _loadUserData();
   }
 
   void _loadUserData() {
-    final UserModel? user = UserRepository().getUser();
-
-    nameController.text = user?.name ?? "";
-    emailController.text = user?.email ?? "";
+    final UserModel user = UserRepository().getUser();
+    emailController.text = user.email ?? "";
+    usernameController.text = user.name ?? "";
   }
 
   void _saveUserData() async {
     if (_key.currentState?.validate() ?? false) {
       await UserRepository().updateUser(
-        name: nameController.text,
+        name: usernameController.text,
         email: emailController.text,
       );
       Navigator.pop(context);
@@ -42,17 +44,18 @@ class _ProfileInfoBottomSheetState extends State<ProfileInfoBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.55,
+      height: MediaQuery.of(context).size.height * 0.50,
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Color(0xffF5F5F5),
-        borderRadius: BorderRadiusGeometry.only(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
           topLeft: Radius.circular(AppSizes.r16),
           topRight: Radius.circular(AppSizes.r16),
         ),
       ),
+
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: AppSizes.h16),
+        padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Form(
             key: _key,
@@ -60,43 +63,43 @@ class _ProfileInfoBottomSheetState extends State<ProfileInfoBottomSheet> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: AppSizes.h16),
                 Center(
                   child: Container(
-                    alignment: Alignment.center,
-                    height: AppSizes.h5,
                     width: AppSizes.w42,
+                    height: AppSizes.h4,
                     decoration: BoxDecoration(
-                      color: Color(0xff363636),
-                      borderRadius: BorderRadiusGeometry.circular(
-                        AppSizes.r100,
-                      ),
+                      color: Color(0xFF363636),
+                      borderRadius: BorderRadius.circular(100),
                     ),
                   ),
                 ),
-                SizedBox(height: AppSizes.h16),
-                Text("Profile Info", style: TextStyle(fontSize: AppSizes.sp16)),
-                SizedBox(height: AppSizes.h24),
+
                 SizedBox(height: AppSizes.ph16),
-                CustomTextFromField(
-                  obscureText: false,
-                  controller: nameController,
-                  title: 'Name',
-                  hint: 'Enter Name',
+                Text(
+                  "Profile Info",
+                  style: TextStyle(fontSize: AppSizes.sp16, fontWeight: FontWeight.w400),
+                ),
+                SizedBox(height: AppSizes.ph16),
+
+                CustomTextFormField(
+                  controller: usernameController,
+                  hintText: 'Ahmed Ibrahim',
+                  title: 'User Name',
                   validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
+                    if (value == null || value.isEmpty) {
                       return "Please Enter User Name";
                     }
+
+                    return null;
                   },
                 ),
-                SizedBox(height: AppSizes.ph12),
-                CustomTextFromField(
-                  obscureText: false,
+                SizedBox(height: AppSizes.ph16),
+                CustomTextFormField(
                   controller: emailController,
+                  hintText: 'usama@gmail.com',
                   title: 'Email',
-                  hint: 'Enter Email',
                   validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
+                    if (value == null || value.isEmpty) {
                       return "Please Enter Email";
                     }
                     RegExp emailRegExp = RegExp(
@@ -104,22 +107,21 @@ class _ProfileInfoBottomSheetState extends State<ProfileInfoBottomSheet> {
                     );
 
                     if (!emailRegExp.hasMatch(value)) {
-                      return "Please Enter Valid Email";
+                      return 'Please Enter Valid Email';
                     } else {
                       return null;
                     }
                   },
                 ),
-                SizedBox(height: AppSizes.ph12),
 
-                SizedBox(height: AppSizes.ph112),
+                SizedBox(height: AppSizes.ph40),
                 ElevatedButton(
                   onPressed: () {
                     _saveUserData();
                   },
                   child: Text("Save"),
                 ),
-                SizedBox(height: AppSizes.h16),
+                SizedBox(height: AppSizes.ph16),
               ],
             ),
           ),

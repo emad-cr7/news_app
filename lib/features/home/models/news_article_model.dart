@@ -1,6 +1,6 @@
 class NewsArticleModel {
   final String? author;
-  final String? title;
+  final String title;
   final String? description;
   final String? url;
   final String? urlToImage;
@@ -35,7 +35,7 @@ class NewsArticleModel {
       title: map['title'] ?? "",
       description: map['description'],
       url: map['url'],
-      urlToImage: map['urlToImage'] ?? "",
+      urlToImage: map['urlToImage'],
       publishedAt: DateTime.tryParse(map['publishedAt']) ?? DateTime.now(),
       content: map['content'],
     );

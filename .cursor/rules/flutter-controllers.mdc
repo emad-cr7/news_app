@@ -1,0 +1,33 @@
+---
+description: Patterns for Flutter controllers and Provider usage
+globs: lib/**/*controller*.dart
+alwaysApply: false
+---
+
+# Controller Patterns
+
+```dart
+class FeatureController extends ChangeNotifier with SafeNotifyMixin {
+  RequestStatus status = RequestStatus.loading;
+  String? errorMessage;
+
+  void fetchData() async {
+    try {
+      status = RequestStatus.loading;
+      safeNotify();
+      // ... fetch
+      status = RequestStatus.loaded;
+      errorMessage = null;
+    } catch (e) {
+      status = RequestStatus.error;
+      errorMessage = e.toString();
+    }
+    safeNotify();
+  }
+}
+```
+
+- Inject repositories via constructor; call fetch in constructor or explicit method.
+- Never call `notifyListeners()` directly — use `safeNotify()`.
+- Screens wrap with `ChangeNotifierProvider` + `Consumer` for rebuilds.
+- Auth screens (`sign_in_screen`, `register_screen`) use `StatefulWidget` + `setState` — no controller.

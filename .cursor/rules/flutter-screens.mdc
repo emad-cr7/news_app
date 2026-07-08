@@ -1,0 +1,15 @@
+---
+description: Patterns for feature screens and UI components
+globs: lib/features/**/*.dart
+alwaysApply: false
+---
+
+# Screen & UI Patterns
+
+- Screens are `StatelessWidget` (or `StatefulWidget` for auth/forms).
+- Async UI uses `switch (controller.requestStatus)` with shimmer/error/loaded states.
+- Loading placeholders: dedicated `*_Shimmer.dart` widgets per section.
+- Images: `CustomCachedNetworkImage`; icons: `CustomSvgPicture`.
+- Forms: `GlobalKey<FormState>` + inline validators on `CustomTextFromField`.
+- Push detail screens with model args: `NewsDetailsScreen(model: article)`.
+- Bottom nav lives in `MainScreen`; tab bodies swapped via `setState`.

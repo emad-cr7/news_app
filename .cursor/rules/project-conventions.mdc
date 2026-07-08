@@ -1,0 +1,18 @@
+---
+description: Core conventions for the news_app Flutter project
+alwaysApply: true
+---
+
+# News App — Core Conventions
+
+- Feature-first layout under `lib/features/`; shared code in `lib/core/`.
+- State: Provider + `ChangeNotifier` controllers scoped per screen.
+- Controllers use `SafeNotifyMixin` and `RequestStatus` for async UI.
+- Local data: `UserRepository` (Hive) for user profile and app settings.
+- Remote news: `NewsRepository` → `ApiService` → NewsAPI.
+- Navigation: `Navigator.push` / `pushReplacement` with `MaterialPageRoute`.
+- Sizing: `flutter_screenutil` via `AppSizes` (`.sp`, `.h`, `.w`, `.r`).
+- Theme: single light theme (`lightTheme`), primary color `#C53030`.
+- Imports: prefer `package:news_app/...` over relative paths.
+- Minimize diff scope; match existing naming even if inconsistent (`Custom_*`, `servies/`).
+- Auth is local-only; all persistence via Hive through `UserRepository`.

@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
-mixin SafeNotifyMixin on ChangeNotifier {
+mixin SafeNotify on ChangeNotifier {
   bool isDispose = false;
 
   safeNotify() {

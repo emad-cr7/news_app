@@ -1,26 +1,25 @@
 import 'package:country_picker/country_picker.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../core/datasource/local_data/servies/user_repository.dart';
-import '../../core/mixins/safe_notify_mixin.dart';
+import 'package:news_app/core/datasource/local_data/user_repository.dart';
+import 'package:news_app/core/mixins/safe_notify_mixin.dart';
+import 'package:news_app/core/models/user_model.dart';
 
-class ProfileController extends ChangeNotifier with SafeNotifyMixin {
+class ProfileController extends ChangeNotifier with SafeNotify {
   XFile? selectedImage;
+
   String? userName;
-
-  String? countryName;
-
   String? countryCode;
-
-
+  String? countryName;
 
   void pickImage(ImageSource source) async {
     selectedImage = await ImagePicker().pickImage(source: source);
+
     safeNotify();
   }
 
-  void getUserDate() {
-    final user = UserRepository().getUser();
+  getUserData() {
+    final UserModel? user = UserRepository().getUser();
     userName = user?.name ?? "";
     countryName = user?.countryName;
     countryCode = user?.countryCode;
@@ -32,9 +31,9 @@ class ProfileController extends ChangeNotifier with SafeNotifyMixin {
       countryName: selectedCountry.name,
       countryCode: selectedCountry.countryCode,
     );
-
     countryName = selectedCountry.name;
     countryCode = selectedCountry.countryCode;
+
     safeNotify();
   }
 }

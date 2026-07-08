@@ -1,52 +1,55 @@
 import 'package:flutter/cupertino.dart';
-import '../../core/enums/request_status.dart';
-import '../../core/mixins/safe_notify_mixin.dart';
-import '../../core/repos/news_repository.dart';
-import 'models/news_article_model.dart';
+import 'package:news_app/core/enums/request_status_enum.dart';
+import 'package:news_app/core/mixins/safe_notify_mixin.dart';
+import 'package:news_app/core/repos/news_repository.dart';
+import 'package:news_app/features/home/models/news_article_model.dart';
 
-class HomeController extends ChangeNotifier with SafeNotifyMixin {
+class HomeController extends ChangeNotifier with SafeNotify {
   HomeController(this.newsRepository) {
     getTopHeadLine();
     getEverything();
   }
 
-  RequestStatus everythingLoading = RequestStatus.loading;
-  RequestStatus topHeadLineLoading = RequestStatus.loading;
+  RequestStatusEnum everythingStatus = RequestStatusEnum.loading;
+  RequestStatusEnum newsTopHeadLineStatus = RequestStatusEnum.loading;
+
+  String? errorMessage;
+
+  String? selectedCategory;
+
   List<NewsArticleModel> newsTopHeadLineList = [];
   List<NewsArticleModel> newsEverythingList = [];
 
-  String? errorMessage;
-  String? selectedCategory;
-
   final BaseNewsRepository newsRepository;
 
-  void getTopHeadLine({String? category}) async {
+  getTopHeadLine({String? category}) async {
     try {
-      topHeadLineLoading = RequestStatus.loading;
+      newsTopHeadLineStatus = RequestStatusEnum.loading;
       safeNotify();
 
-      newsTopHeadLineList = await newsRepository.getTopHeadLine(
-        selectedCategory: selectedCategory,
-      );
+      newsTopHeadLineList = await newsRepository.getTopHeadLine(selectedCategory: selectedCategory);
 
-      topHeadLineLoading = RequestStatus.loaded;
+      newsTopHeadLineStatus = RequestStatusEnum.loaded;
       errorMessage = null;
     } catch (e) {
-      topHeadLineLoading = RequestStatus.error;
+      newsTopHeadLineStatus = RequestStatusEnum.error;
       errorMessage = e.toString();
     }
+
     safeNotify();
   }
 
-  void getEverything() async {
+  getEverything() async {
     try {
       newsEverythingList = await newsRepository.getEverything();
-      everythingLoading = RequestStatus.loaded;
+
+      everythingStatus = RequestStatusEnum.loaded;
       errorMessage = null;
     } catch (e) {
-      everythingLoading = RequestStatus.error;
       errorMessage = e.toString();
+      everythingStatus = RequestStatusEnum.error;
     }
+
     safeNotify();
   }
 
