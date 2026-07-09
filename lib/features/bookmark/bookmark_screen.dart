@@ -3,8 +3,8 @@ import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/enums/request_status_enum.dart';
 import 'package:news_app/features/bookmark/bookmark_controller.dart';
 import 'package:news_app/features/bookmark/widgets/empty_state.dart';
-import 'package:news_app/features/home/components/news_item.dart';
 import 'package:provider/provider.dart';
+import '../home/components/news_item.dart';
 
 class BookmarkScreen extends StatelessWidget {
   const BookmarkScreen({super.key});
