@@ -86,7 +86,7 @@ class ProfileScreen extends StatelessWidget {
                       },
                     ),
                     _buildProfileItem("Language", "assets/images/language.svg", () {}),
-                    _buildProfileItem(controller.countryName ?? "Country", "assets/images/country.svg", () {
+                    _buildProfileItem(controller.countryName ?? "Country", "assets/images/Country.svg", () {
                       showCountryPicker(
                         context: context,
                         onSelect: (Country country) {

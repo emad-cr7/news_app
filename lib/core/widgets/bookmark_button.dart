@@ -48,7 +48,6 @@ class _BookmarkButtonState extends State<BookmarkButton> {
         _isAnimating = false;
       });
 
-      // Show feedback to user
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -93,10 +92,16 @@ class _BookmarkButtonState extends State<BookmarkButton> {
             );
           },
           child: Icon(
-            _isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+            _isBookmarked
+                ? Icons.bookmark
+                : Icons.bookmark_border,
+
             key: ValueKey<bool>(_isBookmarked),
+
             size: widget.size,
-            color: _isBookmarked ? Theme.of(context).primaryColor : Colors.grey,
+            color: _isBookmarked
+                ? Theme.of(context).primaryColor
+                : Colors.grey,
           ),
         ),
       ),

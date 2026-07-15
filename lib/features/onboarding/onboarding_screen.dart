@@ -33,21 +33,24 @@ class OnboardingScreen extends StatelessWidget {
             backgroundColor: Color(0xFFf5f5f5),
             actions: [
               Consumer<OnboardingController>(
-                builder: (BuildContext context, OnboardingController value, Widget? child) {
+                builder: (BuildContext context, OnboardingController value,
+                    Widget? child) {
                   return value.isLastPage
                       ? SizedBox()
                       : TextButton(
-                        onPressed: () {
-                          _onFinish(context);
-                        },
-                        child: Text('Skip', style: TextStyle(fontSize: AppSizes.sp16)),
-                      );
+                    onPressed: () {
+                      _onFinish(context);
+                    },
+                    child: Text(
+                        'Skip', style: TextStyle(fontSize: AppSizes.sp16)),
+                  );
                 },
               ),
             ],
           ),
           body: Padding(
-            padding: EdgeInsets.symmetric(vertical: AppSizes.ph30, horizontal: AppSizes.pw16),
+            padding: EdgeInsets.symmetric(
+                vertical: AppSizes.ph30, horizontal: AppSizes.pw16),
             child: Column(
               children: [
                 Expanded(
@@ -58,7 +61,8 @@ class OnboardingScreen extends StatelessWidget {
                     },
                     itemCount: OnboardingModel.onboardingList.length,
                     itemBuilder: (BuildContext context, int index) {
-                      final OnboardingModel model = OnboardingModel.onboardingList[index];
+                      final OnboardingModel model = OnboardingModel
+                          .onboardingList[index];
                       return Column(
                         children: [
                           Image.asset(model.image),
@@ -89,17 +93,19 @@ class OnboardingScreen extends StatelessWidget {
                 ),
 
                 Consumer<OnboardingController>(
-                  builder: (BuildContext context, OnboardingController value, Widget? child) {
+                  builder: (BuildContext context, OnboardingController value,
+                      Widget? child) {
                     return SmoothPageIndicator(
                       controller: value.pageController,
                       count: 3,
-                      effect: SwapEffect(activeDotColor: Color(0xFFC53030)),
+                      effect: WormEffect(activeDotColor: Color(0xFFC53030)),
                     );
                   },
                 ),
                 SizedBox(height: AppSizes.ph112),
                 Consumer<OnboardingController>(
-                  builder: (BuildContext context, OnboardingController value, Widget? child) {
+                  builder: (BuildContext context, OnboardingController value,
+                      Widget? child) {
                     return ElevatedButton(
                       onPressed: () {
                         if (!value.isLastPage) {

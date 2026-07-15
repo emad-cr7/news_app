@@ -24,7 +24,10 @@ class TrendingNews extends StatelessWidget {
             SizedBox(
               height: AppSizes.h240,
               width: double.infinity,
-              child: Image.asset("assets/images/background.png", fit: BoxFit.cover),
+              child: Image.asset(
+                "assets/images/background_home.png",
+                fit: BoxFit.cover,
+              ),
             ),
 
             Positioned.fill(
@@ -54,25 +57,40 @@ class TrendingNews extends StatelessWidget {
                           case RequestStatusEnum.loading:
                             return TrendingNewsShimmer();
                           case RequestStatusEnum.error:
-                            return Center(child: Text(controller.errorMessage!));
+                            return Center(
+                              child: Text(controller.errorMessage!),
+                            );
                           case RequestStatusEnum.loaded:
                             return ListView.separated(
                               padding: EdgeInsets.only(left: AppSizes.pw16),
-                              itemCount: controller.newsEverythingList.take(6).length,
+                              itemCount: controller.newsEverythingList
+                                  .take(6)
+                                  .length,
                               scrollDirection: Axis.horizontal,
-                              separatorBuilder: (BuildContext context, int index) => SizedBox(width: AppSizes.pw12),
+                              separatorBuilder:
+                                  (BuildContext context, int index) =>
+                                      SizedBox(width: AppSizes.pw12),
                               itemBuilder: (BuildContext context, int index) {
                                 final model = controller.newsEverythingList[index];
                                 return GestureDetector(
-                                  onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) { 
-                                      return NewsDetailsScreen(model: model,);
-                                    }));
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) {
+                                          return NewsDetailsScreen(
+                                            model: model,
+                                          );
+                                        },
+                                      ),
+                                    );
                                   },
                                   child: SizedBox(
-                                    width: 240,
+                                    width: AppSizes.w240,
                                     child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(AppSizes.r12),
+                                      borderRadius: BorderRadius.circular(
+                                        AppSizes.r12,
+                                      ),
                                       child: Stack(
                                         children: [
                                           if (model.urlToImage != null)
@@ -81,7 +99,7 @@ class TrendingNews extends StatelessWidget {
                                               width: AppSizes.w240,
                                               height: AppSizes.h140,
                                             ),
-                                  
+
                                           Positioned.fill(
                                             child: Container(
                                               decoration: BoxDecoration(
@@ -89,8 +107,12 @@ class TrendingNews extends StatelessWidget {
                                                   begin: Alignment.topCenter,
                                                   end: Alignment.bottomCenter,
                                                   colors: [
-                                                    Colors.black.withValues(alpha: 0.5),
-                                                    Colors.black.withValues(alpha: 0.7),
+                                                    Colors.black.withValues(
+                                                      alpha: 0.5,
+                                                    ),
+                                                    Colors.black.withValues(
+                                                      alpha: 0.7,
+                                                    ),
                                                   ],
                                                 ),
                                               ),
@@ -102,7 +124,7 @@ class TrendingNews extends StatelessWidget {
                                             right: AppSizes.pw8,
                                             child: BookmarkButton(
                                               article: model,
-                                              size: 24,
+                                              size: 30,
                                             ),
                                           ),
 
@@ -111,7 +133,8 @@ class TrendingNews extends StatelessWidget {
                                             right: AppSizes.pw12,
                                             left: AppSizes.pw12,
                                             child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Text(
                                                   model.title,
@@ -129,17 +152,32 @@ class TrendingNews extends StatelessWidget {
                                                       child: Row(
                                                         children: [
                                                           CircleAvatar(
-                                                            backgroundImage: NetworkImage(model.urlToImage.toString()),
-                                                            radius: AppSizes.r10,
+                                                            backgroundImage:
+                                                                NetworkImage(
+                                                                  model
+                                                                      .urlToImage
+                                                                      .toString(),
+                                                                ),
+                                                            radius:
+                                                                AppSizes.r10,
                                                           ),
-                                                          SizedBox(width: AppSizes.pw6),
+                                                          SizedBox(
+                                                            width: AppSizes.pw6,
+                                                          ),
                                                           Expanded(
                                                             child: Text(
-                                                              model.author ?? "",
+                                                              model.author ??
+                                                                  "",
                                                               style: TextStyle(
-                                                                color: Color(0xFFFFFCFC),
-                                                                fontSize: AppSizes.sp12,
-                                                                fontWeight: FontWeight.w400,
+                                                                color: Color(
+                                                                  0xFFFFFCFC,
+                                                                ),
+                                                                fontSize:
+                                                                    AppSizes
+                                                                        .sp12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
                                                               ),
                                                               maxLines: 1,
                                                             ),
@@ -148,10 +186,14 @@ class TrendingNews extends StatelessWidget {
                                                       ),
                                                     ),
                                                     Text(
-                                                      model.publishedAt.formatDateTime(),
+                                                      model.publishedAt
+                                                          .formatDateTime(),
                                                       style: TextStyle(
-                                                        color: Color(0xFFFFFCFC),
-                                                        fontWeight: FontWeight.w400,
+                                                        color: Color(
+                                                          0xFFFFFCFC,
+                                                        ),
+                                                        fontWeight:
+                                                            FontWeight.w400,
                                                         fontSize: AppSizes.sp14,
                                                       ),
                                                     ),

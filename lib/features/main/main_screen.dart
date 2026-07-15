@@ -32,7 +32,6 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Update bookmark count when screen becomes visible
     _updateBookmarkCount();
   }
 

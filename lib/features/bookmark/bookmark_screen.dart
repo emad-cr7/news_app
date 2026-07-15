@@ -21,7 +21,6 @@ class BookmarkScreen extends StatelessWidget {
             Consumer<BookmarkController>(
               builder: (context, controller, child) {
                 if (controller.bookmarks.isEmpty) return const SizedBox();
-
                 return PopupMenuButton<String>(
                   onSelected: (value) {
                     if (value == 'clear') {
