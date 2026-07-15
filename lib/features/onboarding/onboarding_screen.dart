@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
 import 'package:news_app/features/auth/login_screen.dart';
-import 'package:news_app/features/onboarding/controller/onboarding_controller.dart';
+import 'package:news_app/features/onboarding/cubit/onboarding_cubit.dart';
 import 'package:news_app/features/onboarding/models/onboarding_model.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -24,18 +25,16 @@ class OnboardingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (BuildContext context) => OnboardingController(),
-      builder: (context, child) {
-        final controller = context.read<OnboardingController>();
+    return BlocProvider(
+      create: (BuildContext context) => OnboardingCubit(),
+      child: Builder(builder: (BuildContext context) {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Color(0xFFf5f5f5),
             actions: [
-              Consumer<OnboardingController>(
-                builder: (BuildContext context, OnboardingController value,
-                    Widget? child) {
-                  return value.isLastPage
+              BlocBuilder<OnboardingCubit, OnboardingState>(
+                builder: ( context,  state) {
+                  return state.isLastPage
                       ? SizedBox()
                       : TextButton(
                     onPressed: () {
@@ -55,9 +54,9 @@ class OnboardingScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: PageView.builder(
-                    controller: controller.pageController,
+                    controller: context.read<OnboardingCubit>().pageController,
                     onPageChanged: (int index) {
-                      context.read<OnboardingController>().onPageChange(index);
+                      context.read<OnboardingCubit>().onPageChange(index);
                     },
                     itemCount: OnboardingModel.onboardingList.length,
                     itemBuilder: (BuildContext context, int index) {
@@ -92,24 +91,22 @@ class OnboardingScreen extends StatelessWidget {
                   ),
                 ),
 
-                Consumer<OnboardingController>(
-                  builder: (BuildContext context, OnboardingController value,
-                      Widget? child) {
+                BlocBuilder<OnboardingCubit,OnboardingState>(
+                  builder: ( context,  state) {
                     return SmoothPageIndicator(
-                      controller: value.pageController,
+                      controller: context.read<OnboardingCubit>().pageController,
                       count: 3,
                       effect: WormEffect(activeDotColor: Color(0xFFC53030)),
                     );
                   },
                 ),
                 SizedBox(height: AppSizes.ph112),
-                Consumer<OnboardingController>(
-                  builder: (BuildContext context, OnboardingController value,
-                      Widget? child) {
+                BlocBuilder<OnboardingCubit, OnboardingState>(
+                  builder: (BuildContext context, OnboardingState state) {
                     return ElevatedButton(
                       onPressed: () {
-                        if (!value.isLastPage) {
-                          controller.pageController.nextPage(
+                        if (!state.isLastPage) {
+                          context.read<OnboardingCubit>().pageController.nextPage(
                             duration: Duration(milliseconds: 300),
                             curve: Curves.easeInOut,
                           );
@@ -117,7 +114,7 @@ class OnboardingScreen extends StatelessWidget {
                           _onFinish(context);
                         }
                       },
-                      child: Text(value.isLastPage ? 'Get Started' : 'Next'),
+                      child: Text(state.isLastPage ? 'Get Started' : 'Next'),
                     );
                   },
                 ),
@@ -125,7 +122,7 @@ class OnboardingScreen extends StatelessWidget {
             ),
           ),
         );
-      },
+      })
     );
   }
 }
