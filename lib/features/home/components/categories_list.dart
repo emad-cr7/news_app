@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/theme/light_color.dart';
 import 'package:news_app/features/home/categories_screen.dart';
 import 'package:news_app/features/home/components/view_all_component.dart';
-import 'package:news_app/features/home/home_controller.dart';
+import 'package:news_app/features/home/cubit/home_cubit.dart';
 import 'package:provider/provider.dart';
 
 class CategoriesList extends StatelessWidget {
@@ -12,8 +13,8 @@ class CategoriesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: Consumer<HomeController>(
-        builder: (BuildContext context, controller, Widget? child) {
+      child: BlocBuilder<HomeCubit, HomeState>(
+        builder: (BuildContext context, HomeState state) {
           return Column(
             children: [
               ViewAllComponent(
@@ -24,8 +25,8 @@ class CategoriesList extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (BuildContext _) {
-                        return ChangeNotifierProvider.value(
-                          value: Provider.of<HomeController>(context, listen: false),
+                        return BlocProvider.value(
+                          value: context.read<HomeCubit>(),
                           child: CategoriesScreen(),
                         );
                       },
@@ -34,7 +35,11 @@ class CategoriesList extends StatelessWidget {
                 },
               ),
               Padding(
-                padding: EdgeInsets.only(left: AppSizes.pw16, top: AppSizes.ph16, bottom: AppSizes.ph16),
+                padding: EdgeInsets.only(
+                  left: AppSizes.pw16,
+                  top: AppSizes.ph16,
+                  bottom: AppSizes.ph16,
+                ),
                 child: SizedBox(
                   height: AppSizes.h35,
                   child: ListView.separated(
@@ -42,16 +47,18 @@ class CategoriesList extends StatelessWidget {
                     itemCount: categories.length,
                     padding: EdgeInsets.only(right: AppSizes.pw16),
                     itemBuilder: (BuildContext context, int index) {
-                      bool isSelected = categories[index] == controller.selectedCategory;
+                      bool isSelected =
+                          categories[index] == state.selectedCategory;
                       return GestureDetector(
                         onTap: () {
-                          controller.updateSelectedCategory(categories[index]);
+                          context.read<HomeCubit>().updateSelectedCategory(categories[index]);
                         },
                         child: IntrinsicWidth(
                           child: Column(
                             children: [
                               Text(
-                                categories[index][0].toUpperCase() + categories[index].substring(1),
+                                categories[index][0].toUpperCase() +
+                                    categories[index].substring(1),
                                 style: TextStyle(
                                   color: Color(0xFF363636),
                                   fontSize: AppSizes.sp16,
@@ -60,7 +67,10 @@ class CategoriesList extends StatelessWidget {
                               ),
                               if (isSelected) ...[
                                 SizedBox(height: AppSizes.ph4),
-                                Container(height: AppSizes.h2, color: LightColors.primaryColor),
+                                Container(
+                                  height: AppSizes.h2,
+                                  color: LightColors.primaryColor,
+                                ),
                               ],
                             ],
                           ),
@@ -81,4 +91,12 @@ class CategoriesList extends StatelessWidget {
   }
 }
 
-final List<String> categories = ["business", "entertainment", "general", "health", "science", "sports", "technology"];
+final List<String> categories = [
+  "business",
+  "entertainment",
+  "general",
+  "health",
+  "science",
+  "sports",
+  "technology",
+];
