@@ -16,6 +16,7 @@ class AuthRepository {
       ApiConfig.login,
       ApiConfig.baseUrlAuth,
       body: {"username": userName, "password": password, "expiresInMins": 30},
+      token: UserRepository().getUser()?.accessToken,
     );
     final user = UserModel.fromAuth(response, userName);
 
