@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
@@ -10,7 +11,7 @@ import 'package:news_app/core/theme/light_color.dart';
 import 'package:news_app/core/widgets/custom_svg_picture.dart';
 import 'package:news_app/features/auth/login_screen.dart';
 import 'package:news_app/features/profile/bottom_sheet/profile_info_bottom_sheet.dart';
-import 'package:news_app/features/profile/profile_controller.dart';
+import 'package:news_app/features/profile/cubit/profile_cubit.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -18,111 +19,128 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<ProfileController>(
-      create: (BuildContext context) => ProfileController()..getUserData(),
+    return BlocProvider<ProfileCubit>(
+      create: (BuildContext context) => ProfileCubit()..getUserData(),
       child: Scaffold(
         appBar: AppBar(title: Text("Profile"), centerTitle: true),
         body: Padding(
-          padding: EdgeInsets.symmetric(vertical: AppSizes.h24, horizontal: AppSizes.w16),
-          child: Consumer<ProfileController>(
-            builder: (BuildContext context, ProfileController controller, Widget? child) {
-              return SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: Stack(
-                        alignment: Alignment.bottomRight,
-                        children: [
-                          CircleAvatar(
-                            backgroundImage:
-                                controller.selectedImage == null
+          padding: EdgeInsets.symmetric(
+            vertical: AppSizes.h24,
+            horizontal: AppSizes.w16,
+          ),
+          child: BlocBuilder<ProfileCubit , ProfileState>(
+            builder:
+                (BuildContext context, ProfileState state) {
+                  return SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: Stack(
+                            alignment: Alignment.bottomRight,
+                            children: [
+                              CircleAvatar(
+                                backgroundImage:
+                                    state.selectedImage == null
                                     ? AssetImage("assets/images/person.png")
-                                    : FileImage(File(controller.selectedImage!.path)),
-                            radius: AppSizes.r60,
-                            backgroundColor: Colors.transparent,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              showImageSourceDialog(context);
-                            },
-                            child: Container(
-                              height: AppSizes.w45,
-                              width: AppSizes.h45,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(50),
+                                    : FileImage(
+                                        File(state.selectedImage!.path),
+                                      ),
+                                radius: AppSizes.r60,
+                                backgroundColor: Colors.transparent,
                               ),
-                              child: Icon(Icons.camera_alt),
+                              GestureDetector(
+                                onTap: () {
+                                  showImageSourceDialog(context);
+                                },
+                                child: Container(
+                                  height: AppSizes.w45,
+                                  width: AppSizes.h45,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  child: Icon(Icons.camera_alt),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: AppSizes.ph8),
+                        Center(
+                          child: Text(
+                            state.userName ?? "",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: AppSizes.sp16,
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: AppSizes.ph8),
-                    Center(
-                      child: Text(
-                        controller.userName ?? "",
-                        style: TextStyle(color: Colors.black, fontSize: AppSizes.sp16),
-                      ),
-                    ),
+                        ),
 
-                    SizedBox(height: AppSizes.ph16),
+                        SizedBox(height: AppSizes.ph16),
 
-                    _buildProfileItem(
-                      "Personal Info",
-                      "assets/images/profile.svg",
-                      () async {
-                        showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          backgroundColor: Colors.transparent,
-                          builder: (BuildContext context) {
-                            return ProfileInfoBottomSheet();
+                        _buildProfileItem(
+                          "Personal Info",
+                          "assets/images/profile.svg",
+                          () async {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              builder: (BuildContext context) {
+                                return ProfileInfoBottomSheet();
+                              },
+                            ).then((value) {
+                              context.read<ProfileCubit>().getUserData();
+                            });
                           },
-                        ).then((value) {
-                          controller.getUserData();
-                        });
-                      },
+                        ),
+                        _buildProfileItem(
+                          "Language",
+                          "assets/images/language.svg",
+                          () {},
+                        ),
+                        _buildProfileItem(
+                          state.countryName ?? "Country",
+                          "assets/images/Country.svg",
+                          () {
+                            showCountryPicker(
+                              context: context,
+                              onSelect: (Country country) {
+                                context.read<ProfileCubit>().saveCountry(country);
+                              },
+                            );
+                          },
+                        ),
+                        _buildProfileItem(
+                          "Terms & Conditions",
+                          "assets/images/terms_conditions.svg",
+                          () {},
+                        ),
+                        _buildProfileItem(
+                          "Logout",
+                          "assets/images/logout.svg",
+                          () async {
+                            // Clear user data from Hive
+                            await UserRepository().delete();
+                            // Clear login flags from SharedPreferences
+                            await PreferencesManager().clear();
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) {
+                                  return LoginScreen();
+                                },
+                              ),
+                            );
+                          },
+                          color: LightColors.primaryColor,
+                          withDivider: false,
+                        ),
+                      ],
                     ),
-                    _buildProfileItem("Language", "assets/images/language.svg", () {}),
-                    _buildProfileItem(controller.countryName ?? "Country", "assets/images/Country.svg", () {
-                      showCountryPicker(
-                        context: context,
-                        onSelect: (Country country) {
-                          controller.saveCountry(country);
-                        },
-                      );
-                    }),
-                    _buildProfileItem(
-                      "Terms & Conditions",
-                      "assets/images/terms_conditions.svg",
-                      () {},
-                    ),
-                    _buildProfileItem(
-                      "Logout",
-                      "assets/images/logout.svg",
-                      () async {
-                        // Clear user data from Hive
-                        await UserRepository().delete();
-                        // Clear login flags from SharedPreferences
-                        await PreferencesManager().clear();
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return LoginScreen();
-                            },
-                          ),
-                        );
-                      },
-                      color: LightColors.primaryColor,
-                      withDivider: false,
-                    ),
-                  ],
-                ),
-              );
-            },
+                  );
+                },
           ),
         ),
       ),
@@ -130,12 +148,15 @@ class ProfileScreen extends StatelessWidget {
   }
 
   void showImageSourceDialog(BuildContext context) {
-    final controller = context.read<ProfileController>();
+    final controller = context.read<ProfileCubit>();
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return SimpleDialog(
-          title: Text("Select Image Source", style: TextStyle(fontSize: AppSizes.sp16)),
+          title: Text(
+            "Select Image Source",
+            style: TextStyle(fontSize: AppSizes.sp16),
+          ),
 
           children: [
             SimpleDialogOption(

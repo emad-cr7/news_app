@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
-import 'package:news_app/features/bookmark/bookmark_controller.dart';
 import 'package:provider/provider.dart';
+
+import '../cubit/book_mark_cubit.dart';
 
 class EmptyState extends StatelessWidget {
   const EmptyState({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<BookmarkController>(
-      builder: (BuildContext context, controller, Widget? child) {
+    return BlocBuilder<BookmarkCubit, BookmarkState>(
+      builder: (context, state) {
         return Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

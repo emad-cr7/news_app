@@ -24,6 +24,8 @@ class BookmarkRepository {
     _bookmarkBox = await Hive.openBox<BookmarkModel>(Constants.bookmarkBox);
   }
 
+  /// Add a news article to bookmarks
+  /// Uses article URL as unique key to prevent duplicates
   Future<void> addBookmark(NewsArticleModel article) async {
     final bookmark = BookmarkModel(
       author: article.author,
@@ -39,22 +41,27 @@ class BookmarkRepository {
     await bookmarkBox.put(article.url, bookmark);
   }
 
+  /// Remove a bookmark by article URL
   Future<void> removeBookmark(String articleUrl) async {
     await bookmarkBox.delete(articleUrl);
   }
 
+  /// Get all bookmarks, sorted by most recently bookmarked first
   List<BookmarkModel> getBookmarks() => bookmarkBox.values.toList();
 
+  /// Check if an article is bookmarked
   bool isBookmarked(String? articleUrl) {
     if (articleUrl == null || articleUrl.isEmpty) return false;
     return bookmarkBox.containsKey(articleUrl);
   }
 
+  /// Get a single bookmark by URL
   BookmarkModel? getBookmark(String articleUrl) {
     return bookmarkBox.get(articleUrl);
   }
 
-
+  /// Toggle bookmark status (add if not exists, remove if exists)
+  /// Returns true if bookmark was added, false if removed
   Future<bool> toggleBookmark(NewsArticleModel article) async {
     if (isBookmarked(article.url)) {
       await removeBookmark(article.url!);
@@ -65,16 +72,35 @@ class BookmarkRepository {
     }
   }
 
+  /// Get total count of bookmarks
   int getBookmarkCount() {
     return bookmarkBox.length;
   }
 
+  /// Clear all bookmarks
   Future<void> clearAllBookmarks() async {
     await bookmarkBox.clear();
   }
 
+  /// Search bookmarks by title or description
+  List<BookmarkModel> searchBookmarks(String query) {
+    if (query.isEmpty) return getBookmarks();
 
+    final lowercaseQuery = query.toLowerCase();
 
+    return bookmarkBox.values.where((bookmark) {
+      final titleMatch = bookmark.title.toLowerCase().contains(lowercaseQuery);
+      final descriptionMatch =
+          bookmark.description?.toLowerCase().contains(lowercaseQuery) ?? false;
+      final authorMatch =
+          bookmark.author?.toLowerCase().contains(lowercaseQuery) ?? false;
+
+      return titleMatch || descriptionMatch || authorMatch;
+    }).toList()
+      ..sort((a, b) => b.bookmarkedAt.compareTo(a.bookmarkedAt));
+  }
+
+  /// Convert BookmarkModel to NewsArticleModel
   NewsArticleModel bookmarkToArticle(BookmarkModel bookmark) {
     return NewsArticleModel(
       author: bookmark.author,

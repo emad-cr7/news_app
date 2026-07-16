@@ -1,44 +1,48 @@
-import 'package:flutter/material.dart';
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:news_app/core/enums/request_status_enum.dart';
-import 'package:news_app/core/mixins/safe_notify_mixin.dart';
 import 'package:news_app/features/bookmark/data/bookmark_repository.dart';
 import 'package:news_app/features/bookmark/models/bookmark_model.dart';
 import 'package:news_app/features/home/models/news_article_model.dart';
 
-class BookmarkController extends ChangeNotifier with SafeNotify {
-  final BookmarkRepository _repository = BookmarkRepository();
+part 'book_mark_state.dart';
 
-  RequestStatusEnum bookmarksStatus = RequestStatusEnum.loading;
-  List<BookmarkModel> bookmarks = [];
-  String? errorMessage;
-
-  // Search state
-  String searchQuery = '';
-
-  BookmarkController() {
+class BookmarkCubit extends Cubit<BookmarkState> {
+  BookmarkCubit() : super(const BookmarkState()) {
     loadBookmarks();
   }
 
+  final BookmarkRepository _repository = BookmarkRepository();
+
   void loadBookmarks() {
     try {
-      bookmarksStatus = RequestStatusEnum.loading;
-      safeNotify();
+      emit(state.copyWith(bookmarksStatus: RequestStatusEnum.loading));
 
-      if (searchQuery.isEmpty) {
-        bookmarks = _repository.getBookmarks();
+      if (state.searchQuery.isEmpty) {
+        emit(state.copyWith(bookmarks: _repository.getBookmarks()));
       } else {
-        return;
+        emit(
+          state.copyWith(
+            bookmarks: _repository.searchBookmarks(state.searchQuery),
+          ),
+        );
       }
 
-      bookmarksStatus = RequestStatusEnum.loaded;
-      errorMessage = null;
+      emit(
+        state.copyWith(
+          bookmarksStatus: RequestStatusEnum.loaded,
+          errorMessage: null,
+        ),
+      );
     } catch (e) {
-      bookmarksStatus = RequestStatusEnum.error;
-      errorMessage = e.toString();
+      emit(
+        state.copyWith(
+          bookmarksStatus: RequestStatusEnum.error,
+          errorMessage: e.toString(),
+        ),
+      );
     }
-    safeNotify();
   }
-
 
   Future<bool> toggleBookmark(NewsArticleModel article) async {
     try {
@@ -48,8 +52,7 @@ class BookmarkController extends ChangeNotifier with SafeNotify {
 
       return wasAdded;
     } catch (e) {
-      errorMessage = e.toString();
-      safeNotify();
+      emit(state.copyWith(errorMessage: e.toString()));
       return false;
     }
   }
@@ -59,8 +62,7 @@ class BookmarkController extends ChangeNotifier with SafeNotify {
       await _repository.addBookmark(article);
       loadBookmarks();
     } catch (e) {
-      errorMessage = e.toString();
-      safeNotify();
+      emit(state.copyWith(errorMessage: e.toString()));
     }
   }
 
@@ -69,8 +71,7 @@ class BookmarkController extends ChangeNotifier with SafeNotify {
       await _repository.removeBookmark(articleUrl);
       loadBookmarks();
     } catch (e) {
-      errorMessage = e.toString();
-      safeNotify();
+      emit(state.copyWith(errorMessage: e.toString()));
     }
   }
 
@@ -85,12 +86,14 @@ class BookmarkController extends ChangeNotifier with SafeNotify {
       await _repository.clearAllBookmarks();
       loadBookmarks();
     } catch (e) {
-      errorMessage = e.toString();
-      safeNotify();
+      emit(state.copyWith(errorMessage: e.toString()));
     }
   }
 
-
+  void searchBookmarks(String query) {
+    emit(state.copyWith(searchQuery: query));
+    loadBookmarks();
+  }
 
   NewsArticleModel getArticleFromBookmark(BookmarkModel bookmark) {
     return _repository.bookmarkToArticle(bookmark);
@@ -101,6 +104,8 @@ class BookmarkController extends ChangeNotifier with SafeNotify {
   }
 
   List<NewsArticleModel> get bookmarksAsArticles {
-    return bookmarks.map((bookmark) => _repository.bookmarkToArticle(bookmark)).toList();
+    return state.bookmarks
+        .map((bookmark) => _repository.bookmarkToArticle(bookmark))
+        .toList();
   }
 }

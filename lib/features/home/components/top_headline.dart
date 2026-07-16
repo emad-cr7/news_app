@@ -13,6 +13,7 @@ class TopHeadline extends StatelessWidget {
     return BlocBuilder<HomeCubit , HomeState>(
       builder: (BuildContext context, HomeState state) {
         switch (state.newsTopHeadLineStatus) {
+          case RequestStatusEnum.initial:
           case RequestStatusEnum.loading:
             return TopHeadlineShimmer();
           case RequestStatusEnum.error:
@@ -25,6 +26,7 @@ class TopHeadline extends StatelessWidget {
                 return NewsItem(model: model);
               },
             );
+
         }
       },
     );
