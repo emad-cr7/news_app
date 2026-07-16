@@ -10,5 +10,6 @@ class ApiConfig {
 
   /// Auth Endpoints
   static const String login = "auth/login";
-  static const String register = "auth/register";
+  static const String refresh = "auth/refresh";
+  static const String currentUser = "auth/me";
 }

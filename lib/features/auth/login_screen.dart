@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
-import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
-import 'package:news_app/core/datasource/local_data/user_repository.dart';
 import 'package:news_app/core/datasource/remote_data/api_service.dart';
 import 'package:news_app/core/widgets/custom_text_form_field.dart';
 import 'package:news_app/features/auth/cubit/auth_cubit.dart';
 import 'package:news_app/features/auth/register_screen.dart';
 import 'package:news_app/features/auth/repos/auth_reposatory.dart';
-import 'package:news_app/features/main/main_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -19,14 +16,10 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController userNameController = TextEditingController();
-
   final TextEditingController passwordController = TextEditingController();
-
   final GlobalKey<FormState> _form = GlobalKey();
 
 
-   String? errorMessage;
-   bool isLoading = false;
 
    @override
    void dispose() {
@@ -35,43 +28,6 @@ class _LoginScreenState extends State<LoginScreen> {
        super.dispose();
    }
 
-  // void login() async {
-  //   setState(() {
-  //     errorMessage = null;
-  //     isLoading = true;
-  //   });
-  //
-  //   await Future.delayed(const Duration(seconds: 3));
-  //
-  //   final String? error = UserRepository().login(
-  //     userNameController.text,
-  //     passwordController.text,
-  //   );
-  //
-  //   if (error != null) {
-  //     setState(() {
-  //       errorMessage = error;
-  //       isLoading = false;
-  //     });
-  //     return;
-  //   }
-  //
-  //   await PreferencesManager().setBool("is_logged_in", true);
-  //
-  //   Navigator.pushReplacement(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (BuildContext context) {
-  //         return const MainScreen();
-  //       },
-  //     ),
-  //   );
-  //
-  //   setState(() {
-  //     errorMessage = null;
-  //     isLoading = false;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -139,13 +95,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                             ),
 
-                            if (errorMessage != null)
+                            if (state.errorMessage != null)
                               Padding(
                                 padding: EdgeInsets.symmetric(
                                   vertical: AppSizes.ph8,
                                 ),
                                 child: Text(
-                                  errorMessage!,
+                                  state.errorMessage!,
                                   style: const TextStyle(color: Colors.red),
                                 ),
                               ),
@@ -163,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     );
                                   }
                                 },
-                                child: isLoading
+                                child: state.isLoading
                                     ? const CircularProgressIndicator()
                                     : const Text("Sign In"),
                               ),

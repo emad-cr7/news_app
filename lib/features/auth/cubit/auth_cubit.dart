@@ -11,15 +11,29 @@ part 'auth_state.dart';
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit(this.authRepository) : super(AuthState());
 
-  AuthRepository authRepository ;
+  AuthRepository authRepository;
 
+  Future<void> login({
+    required String userName,
+    required String password,
+  }) async {
+    emit(state.copyWith(status: RequestStatusEnum.loading, errorMessage: null));
 
-  Future<void> login({required String userName, required String password})async {
-    emit(state.copyWith(status: RequestStatusEnum.loading , errorMessage: null));
-
-
-
-
-    await authRepository.login(userName: userName, password: password);
+    final userModel = await authRepository.login(
+      userName: userName,
+      password: password,
+    );
+    if (userModel != null) {
+      emit(
+        state.copyWith(status: RequestStatusEnum.loaded, userModel: userModel),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          status: RequestStatusEnum.error,
+          errorMessage: "Invalid credentials",
+        ),
+      );
+    }
   }
 }
