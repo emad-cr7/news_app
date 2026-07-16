@@ -77,7 +77,10 @@ class _ProfileInfoBottomSheetState extends State<ProfileInfoBottomSheet> {
                 SizedBox(height: AppSizes.ph16),
                 Text(
                   "Profile Info",
-                  style: TextStyle(fontSize: AppSizes.sp16, fontWeight: FontWeight.w400),
+                  style: TextStyle(
+                    fontSize: AppSizes.sp16,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
                 SizedBox(height: AppSizes.ph16),
 
@@ -101,15 +104,6 @@ class _ProfileInfoBottomSheetState extends State<ProfileInfoBottomSheet> {
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "Please Enter Email";
-                    }
-                    RegExp emailRegExp = RegExp(
-                      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-                    );
-
-                    if (!emailRegExp.hasMatch(value)) {
-                      return 'Please Enter Valid Email';
-                    } else {
-                      return null;
                     }
                   },
                 ),

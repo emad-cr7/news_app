@@ -70,10 +70,7 @@ class ProfileScreen extends StatelessWidget {
                         Center(
                           child: Text(
                             state.userName ?? "",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: AppSizes.sp16,
-                            ),
+                            style: TextStyle(color: Colors.black, fontSize: AppSizes.sp16),
                           ),
                         ),
 
@@ -121,9 +118,7 @@ class ProfileScreen extends StatelessWidget {
                           "Logout",
                           "assets/images/logout.svg",
                           () async {
-                            // Clear user data from Hive
                             await UserRepository().delete();
-                            // Clear login flags from SharedPreferences
                             await PreferencesManager().clear();
                             Navigator.pushReplacement(
                               context,

@@ -1,19 +1,18 @@
 part of 'profile_cubit.dart';
 
 class ProfileState extends Equatable {
-  final XFile? selectedImage;
-  final String? userName;
-  final String? countryCode;
-  final String? countryName;
-
-  ProfileState({
+  const ProfileState({
     this.selectedImage,
     this.userName,
     this.countryCode,
     this.countryName,
   });
 
+  final XFile? selectedImage;
 
+  final String? userName;
+  final String? countryCode;
+  final String? countryName;
 
   ProfileState copyWith({
     XFile? selectedImage,
@@ -30,10 +29,5 @@ class ProfileState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
-    selectedImage,
-    userName,
-    countryCode,
-    countryName,
-  ];
+  List<Object?> get props => [selectedImage, userName, countryCode, countryName];
 }
