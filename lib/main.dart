@@ -5,8 +5,9 @@ import 'package:news_app/core/datasource/local_data/user_repository.dart';
 import 'package:news_app/core/theme/light_theme.dart';
 import 'package:news_app/features/bookmark/data/bookmark_repository.dart';
 import 'package:news_app/features/splash/splash_screen.dart';
-
 import 'core/datasource/remote_data/dio_ex.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       builder: (ctx, _) {
         return MaterialApp(
+          navigatorKey: navigatorKey,
           title: 'Tasky App',
           debugShowCheckedModeBanner: false,
           theme: lightTheme,
