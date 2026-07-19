@@ -6,6 +6,8 @@ import 'package:news_app/core/theme/light_theme.dart';
 import 'package:news_app/features/bookmark/data/bookmark_repository.dart';
 import 'package:news_app/features/splash/splash_screen.dart';
 
+import 'core/datasource/remote_data/dio_ex.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -16,6 +18,13 @@ void main() async {
   await UserRepository().init();
 
   await BookmarkRepository().init();
+
+  await DioEx.exampleGetRequest();
+  await DioEx.exampleGetRequestWithQueryParameter();
+  await DioEx.examplePostRequest();
+  await DioEx.examplePutRequest();
+  await DioEx.exampleDeleteRequest();
+ // await DioEx.exampleErrorRequest();
 
   runApp(const MyApp());
 }

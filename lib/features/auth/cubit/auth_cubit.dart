@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
+import 'package:news_app/core/datasource/local_data/user_repository.dart';
 import 'package:news_app/core/models/user_model.dart';
 import 'package:news_app/features/auth/repos/auth_reposatory.dart';
 
@@ -29,6 +31,7 @@ class AuthCubit extends Cubit<AuthState> {
         emit(
           state.copyWith(status: RequestStatusEnum.loaded, userModel: userModel),
         );
+
       } else {
         emit(
           state.copyWith(

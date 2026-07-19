@@ -10,7 +10,6 @@ import 'package:news_app/features/details/news_details_screen.dart';
 import 'package:news_app/features/home/components/trending_news_shimmer.dart';
 import 'package:news_app/features/home/components/view_all_component.dart';
 import 'package:news_app/features/home/cubit/home_cubit.dart';
-import 'package:provider/provider.dart';
 
 class TrendingNews extends StatelessWidget {
   const TrendingNews({super.key});

@@ -4,6 +4,8 @@ import 'package:news_app/features/auth/login_screen.dart';
 import 'package:news_app/features/main/main_screen.dart';
 import 'package:news_app/features/onboarding/onboarding_screen.dart';
 
+import '../../core/datasource/local_data/user_repository.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -21,10 +23,13 @@ class _SplashScreenState extends State<SplashScreen> {
   void _navigateAfterSplash() async {
     await Future.delayed(Duration(seconds: 2));
 
-    final bool onboardingComplete = PreferencesManager().getBool('onboarding_complete') ?? false;
+    final bool onboardingComplete =
+        PreferencesManager().getBool('onboarding_complete') ?? false;
 
-    final bool isLoggedIn = PreferencesManager().getBool('is_logged_in') ?? false;
+    final isLoggedIn =
+        await PreferencesManager().getBool('is_logged_in') ?? false;
 
+    final hasAccessToken = UserRepository().getUser()?.accessToken != null;
     if (!mounted) return;
     if (!onboardingComplete) {
       Navigator.pushReplacement(
@@ -35,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
           },
         ),
       );
-    } else if (!isLoggedIn) {
+    } else if (!isLoggedIn && !hasAccessToken) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -58,6 +63,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Image.asset('assets/images/splash.png', width: double.infinity, fit: BoxFit.fill));
+    return Scaffold(
+      body: Image.asset(
+        'assets/images/splash.png',
+        width: double.infinity,
+        fit: BoxFit.fill,
+      ),
+    );
   }
 }
