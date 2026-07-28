@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/features/main/main_screen.dart';
 import '../../core/constants/app_sizes.dart';
-import '../../core/datasource/local_data/preferences_manager.dart';
+import '../../core/datasource/local_data/user_repository.dart';
+import '../../core/models/user_model.dart';
 import '../../core/theme/light_color.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -17,7 +18,6 @@ class WelcomeScreen extends StatelessWidget {
         child: Container(
           width: double.infinity,
           height: double.infinity,
-
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage("assets/images/background_image.png"),
@@ -58,6 +58,7 @@ class WelcomeScreen extends StatelessWidget {
                             if (value!.trim().isEmpty) {
                               return "Please enter your name.";
                             }
+                            return null;
                           },
                           decoration: InputDecoration(
                             prefixIcon: Icon(
@@ -71,14 +72,22 @@ class WelcomeScreen extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () async {
                           if (_form.currentState!.validate()) {
-                            await PreferencesManager().setBool(
-                              'is_logged_in',
-                              true,
-                            );
-                            await PreferencesManager().setString(
-                              "name",
-                              nameController.text,
-                            );
+                            final existingUser = UserRepository().getUser();
+
+                            if (existingUser != null) {
+                              await UserRepository().updateUser(
+                                name: nameController.text.trim(),
+                              );
+                            } else {
+                              await UserRepository().saveUser(
+                                UserModel(
+                                  name: nameController.text.trim(),
+                                  email: '',
+                                  password: '',
+                                ),
+                              );
+                            }
+
                             if (!context.mounted) return;
                             Navigator.pushReplacement(
                               context,

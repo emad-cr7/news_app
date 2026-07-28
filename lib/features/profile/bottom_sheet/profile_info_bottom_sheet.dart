@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
-import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
 import 'package:news_app/core/datasource/local_data/user_repository.dart';
-import 'package:news_app/core/models/user_model.dart';
 import 'package:news_app/core/widgets/custom_text_form_field.dart';
 
 class ProfileInfoBottomSheet extends StatefulWidget {
@@ -14,31 +12,19 @@ class ProfileInfoBottomSheet extends StatefulWidget {
 
 class _ProfileInfoBottomSheetState extends State<ProfileInfoBottomSheet> {
   final TextEditingController usernameController = TextEditingController();
-
-  final TextEditingController emailController = TextEditingController();
-
   final GlobalKey<FormState> _key = GlobalKey();
-
-
 
   @override
   void initState() {
     super.initState();
-
-    _loadUserData();
+    final currentUser = UserRepository().getUser();
+    usernameController.text = currentUser?.name ?? '';
   }
 
-  void _loadUserData() {
-    final UserModel? user = UserRepository().getUser();
-    emailController.text = user?.email ?? "";
-  }
-  void _saveUserData() async {
-    if (_key.currentState?.validate() ?? false) {
-      await UserRepository().updateUser(
-        name: usernameController.text,
-      );
-      Navigator.pop(context);
-    }
+  @override
+  void dispose() {
+    usernameController.dispose();
+    super.dispose();
   }
 
   @override
@@ -97,8 +83,14 @@ class _ProfileInfoBottomSheetState extends State<ProfileInfoBottomSheet> {
                 SizedBox(height: AppSizes.ph60),
 
                 ElevatedButton(
-                  onPressed: () {
-                    _saveUserData();
+                  onPressed: () async {
+                    if (_key.currentState!.validate()) {
+                      await UserRepository().updateUser(
+                        name: usernameController.text.trim(),
+                      );
+                      if (!context.mounted) return;
+                      Navigator.pop(context);
+                    }
                   },
                   child: Text("Save"),
                 ),

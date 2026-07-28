@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
-import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
 import 'package:news_app/core/datasource/local_data/user_repository.dart';
 import 'package:news_app/core/theme/light_color.dart';
 import 'package:news_app/core/widgets/custom_svg_picture.dart';
@@ -19,7 +18,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final name = PreferencesManager().getString("name");
+    final name = UserRepository().getUser()?.name;
 
     return BlocProvider<ProfileCubit>(
       create: (BuildContext context) => ProfileCubit()..getUserData(),
@@ -33,101 +32,100 @@ class ProfileScreen extends StatelessWidget {
           child: BlocBuilder<ProfileCubit , ProfileState>(
             builder:
                 (BuildContext context, ProfileState state) {
-                  return SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Center(
-                          child: Stack(
-                            alignment: Alignment.bottomRight,
-                            children: [
-                              CircleAvatar(
-                                backgroundImage:
-                                    state.selectedImage == null
-                                    ? AssetImage("assets/images/person.png")
-                                    : FileImage(
-                                        File(state.selectedImage!.path),
-                                      ),
-                                radius: AppSizes.r60,
-                                backgroundColor: Colors.transparent,
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  showImageSourceDialog(context);
-                                },
-                                child: Container(
-                                  height: AppSizes.w45,
-                                  width: AppSizes.h45,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(50),
-                                  ),
-                                  child: Icon(Icons.camera_alt),
-                                ),
-                              ),
-                            ],
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Stack(
+                        alignment: Alignment.bottomRight,
+                        children: [
+                          CircleAvatar(
+                            backgroundImage:
+                            state.selectedImage == null
+                                ? AssetImage("assets/images/person.png")
+                                : FileImage(
+                              File(state.selectedImage!.path),
+                            ),
+                            radius: AppSizes.r60,
+                            backgroundColor: Colors.transparent,
                           ),
-                        ),
-                        SizedBox(height: AppSizes.ph8),
-                        Center(
-                          child: Text(
-                            name ?? "",
-                            style: TextStyle(color: Colors.black, fontSize: AppSizes.sp16),
-                          ),
-                        ),
-
-                        SizedBox(height: AppSizes.ph16),
-
-                        _buildProfileItem(
-                          "Personal Info",
-                          "assets/images/profile.svg",
-                          () async {
-                            showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              backgroundColor: Colors.transparent,
-                              builder: (BuildContext context) {
-                                return ProfileInfoBottomSheet();
-                              },
-                            ).then((value) {
-                              context.read<ProfileCubit>().getUserData();
-                            });
-                          },
-                        ),
-                        _buildProfileItem(
-                          state.countryName ?? "Country",
-                          "assets/images/Country.svg",
-                          () {
-                            showCountryPicker(
-                              context: context,
-                              onSelect: (Country country) {
-                                context.read<ProfileCubit>().saveCountry(country);
-                              },
-                            );
-                          },
-                        ),
-                        _buildProfileItem(
-                          "Logout",
-                          "assets/images/logout.svg",
-                          () async {
-                            await UserRepository().delete();
-                            await PreferencesManager().clear();
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (BuildContext context) {
-                                  return WelcomeScreen();
-                                },
+                          GestureDetector(
+                            onTap: () {
+                              showImageSourceDialog(context);
+                            },
+                            child: Container(
+                              height: AppSizes.w45,
+                              width: AppSizes.h45,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(50),
                               ),
-                            );
-                          },
-                          color: LightColors.primaryColor,
-                          withDivider: false,
-                        ),
-                      ],
+                              child: Icon(Icons.camera_alt),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  );
-                },
+                    SizedBox(height: AppSizes.ph8),
+                    Center(
+                      child: Text(
+                        name ?? "",
+                        style: TextStyle(color: Colors.black, fontSize: AppSizes.sp16),
+                      ),
+                    ),
+
+                    SizedBox(height: AppSizes.ph16),
+
+                    _buildProfileItem(
+                      "Personal Info",
+                      "assets/images/profile.svg",
+                          () async {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          builder: (BuildContext context) {
+                            return ProfileInfoBottomSheet();
+                          },
+                        ).then((value) {
+                          context.read<ProfileCubit>().getUserData();
+                        });
+                      },
+                    ),
+                    _buildProfileItem(
+                      state.countryName ?? "Country",
+                      "assets/images/Country.svg",
+                          () {
+                        showCountryPicker(
+                          context: context,
+                          onSelect: (Country country) {
+                            context.read<ProfileCubit>().saveCountry(country);
+                          },
+                        );
+                      },
+                    ),
+                    _buildProfileItem(
+                      "Logout",
+                      "assets/images/logout.svg",
+                          () async {
+                        await UserRepository().delete();
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return WelcomeScreen();
+                            },
+                          ),
+                        );
+                      },
+                      color: LightColors.primaryColor,
+                      withDivider: false,
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
         ),
       ),
@@ -181,12 +179,12 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildProfileItem(
-    String title,
-    String path,
-    Function onTap, {
-    Color color = const Color(0xFF161F1B),
-    bool withDivider = true,
-  }) {
+      String title,
+      String path,
+      Function onTap, {
+        Color color = const Color(0xFF161F1B),
+        bool withDivider = true,
+      }) {
     return Column(
       children: [
         ListTile(

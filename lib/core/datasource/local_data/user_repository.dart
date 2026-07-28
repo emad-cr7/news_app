@@ -36,8 +36,6 @@ class UserRepository {
 
   updateUser({
     String? name,
-    String? email,
-    String? password,
     String? countryCode,
     String? countryName,
   }) async {
@@ -46,8 +44,6 @@ class UserRepository {
     if (user != null) {
       final updatedUser = user.copyWith(
         name: name,
-        email: email,
-        password: password,
         countryCode: countryCode,
         countryName: countryName,
       );
@@ -62,35 +58,5 @@ class UserRepository {
 
   clearAll() async {
     await userBox.clear();
-  }
-
-  String? login(String email, String password) {
-    final user = getUser();
-
-    if (user == null) {
-      return "No Account Found Please Register First";
-    }
-
-    if (user.email != email || user.password != password) {
-      return "Incorrect Email or Password";
-    }
-    return null;
-  }
-
-  Future<String?> signUp({
-    required String name,
-    required String email,
-    required String password,
-  }) async {
-    final user = getUser();
-
-    if (user != null) {
-      return "User Already Exists Please Login";
-    }
-
-    final newUser = UserModel(name: name, email: email, password: password);
-
-    await saveUser(newUser);
-    return null;
   }
 }
