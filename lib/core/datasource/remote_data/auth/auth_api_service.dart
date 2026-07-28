@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import '../../local_data/user_repository.dart';
 
 
-abstract class BaseApiService {
+abstract class AuthBaseApiService {
 
 
   Future<dynamic> post(
@@ -14,7 +14,7 @@ abstract class BaseApiService {
 
 }
 
-class ApiService extends BaseApiService {
+class AuthApiService extends AuthBaseApiService {
 
   @override
   Future<dynamic> post(

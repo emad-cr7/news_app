@@ -7,7 +7,7 @@ import '../../../core/datasource/remote_data/auth/auth_api_service.dart';
 class AuthRepository {
   AuthRepository(this.apiService);
 
-  final ApiService apiService;
+  final AuthBaseApiService apiService;
 
   Future<UserModel?> login({
     required String userName,

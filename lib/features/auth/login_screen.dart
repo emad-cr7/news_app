@@ -7,7 +7,6 @@ import 'package:news_app/features/auth/cubit/auth_cubit.dart';
 import 'package:news_app/features/auth/register_screen.dart';
 import 'package:news_app/features/auth/repos/auth_reposatory.dart';
 import 'package:news_app/features/main/main_screen.dart';
-
 import '../../core/datasource/remote_data/auth/auth_api_service.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -32,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => AuthCubit(AuthRepository(ApiService())),
+      create: (BuildContext context) => AuthCubit(AuthRepository(AuthApiService())),
       child: Scaffold(
         body: SafeArea(
           child: Container(
