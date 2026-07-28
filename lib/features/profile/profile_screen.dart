@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,16 +8,19 @@ import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
 import 'package:news_app/core/datasource/local_data/user_repository.dart';
 import 'package:news_app/core/theme/light_color.dart';
 import 'package:news_app/core/widgets/custom_svg_picture.dart';
-import 'package:news_app/features/auth/login_screen.dart';
 import 'package:news_app/features/profile/bottom_sheet/profile_info_bottom_sheet.dart';
 import 'package:news_app/features/profile/cubit/profile_cubit.dart';
 import 'package:provider/provider.dart';
+
+import '../welcome/welcome_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final name = PreferencesManager().getString("name");
+
     return BlocProvider<ProfileCubit>(
       create: (BuildContext context) => ProfileCubit()..getUserData(),
       child: Scaffold(
@@ -69,7 +71,7 @@ class ProfileScreen extends StatelessWidget {
                         SizedBox(height: AppSizes.ph8),
                         Center(
                           child: Text(
-                            state.userName ?? "",
+                            name ?? "",
                             style: TextStyle(color: Colors.black, fontSize: AppSizes.sp16),
                           ),
                         ),
@@ -93,11 +95,6 @@ class ProfileScreen extends StatelessWidget {
                           },
                         ),
                         _buildProfileItem(
-                          "Language",
-                          "assets/images/language.svg",
-                          () {},
-                        ),
-                        _buildProfileItem(
                           state.countryName ?? "Country",
                           "assets/images/Country.svg",
                           () {
@@ -110,11 +107,6 @@ class ProfileScreen extends StatelessWidget {
                           },
                         ),
                         _buildProfileItem(
-                          "Terms & Conditions",
-                          "assets/images/terms_conditions.svg",
-                          () {},
-                        ),
-                        _buildProfileItem(
                           "Logout",
                           "assets/images/logout.svg",
                           () async {
@@ -124,7 +116,7 @@ class ProfileScreen extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (BuildContext context) {
-                                  return LoginScreen();
+                                  return WelcomeScreen();
                                 },
                               ),
                             );

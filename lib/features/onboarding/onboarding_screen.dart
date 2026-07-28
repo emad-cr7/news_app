@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
-import 'package:news_app/features/auth/login_screen.dart';
 import 'package:news_app/features/onboarding/cubit/onboarding_cubit.dart';
 import 'package:news_app/features/onboarding/models/onboarding_model.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import '../welcome/welcome_screen.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
@@ -17,7 +18,7 @@ class OnboardingScreen extends StatelessWidget {
       context,
       MaterialPageRoute(
         builder: (BuildContext context) {
-          return LoginScreen();
+          return WelcomeScreen();
         },
       ),
     );

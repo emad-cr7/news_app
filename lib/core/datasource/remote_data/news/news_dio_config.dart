@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
-import '../interceptors/api_key_interceptor.dart';
-import '../interceptors/logging_Interceptors.dart';
+import 'api_key_interceptor.dart';
 import 'news_api_config.dart';
 
 class NewsDioConfig {
@@ -16,7 +15,6 @@ class NewsDioConfig {
       ),
     );
     dio.interceptors.add(ApiKeyInterceptor());
-    dio.interceptors.add(LoggingInterceptors());
     return dio;
   }
 }

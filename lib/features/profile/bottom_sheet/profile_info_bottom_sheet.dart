@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
+import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
 import 'package:news_app/core/datasource/local_data/user_repository.dart';
 import 'package:news_app/core/models/user_model.dart';
 import 'package:news_app/core/widgets/custom_text_form_field.dart';
@@ -18,6 +19,8 @@ class _ProfileInfoBottomSheetState extends State<ProfileInfoBottomSheet> {
 
   final GlobalKey<FormState> _key = GlobalKey();
 
+
+
   @override
   void initState() {
     super.initState();
@@ -28,14 +31,11 @@ class _ProfileInfoBottomSheetState extends State<ProfileInfoBottomSheet> {
   void _loadUserData() {
     final UserModel? user = UserRepository().getUser();
     emailController.text = user?.email ?? "";
-    usernameController.text = user?.name ?? "";
   }
-
   void _saveUserData() async {
     if (_key.currentState?.validate() ?? false) {
       await UserRepository().updateUser(
         name: usernameController.text,
-        email: emailController.text,
       );
       Navigator.pop(context);
     }
@@ -44,7 +44,7 @@ class _ProfileInfoBottomSheetState extends State<ProfileInfoBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.50,
+      height: MediaQuery.of(context).size.height * 0.35,
       width: double.infinity,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -82,33 +82,20 @@ class _ProfileInfoBottomSheetState extends State<ProfileInfoBottomSheet> {
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-                SizedBox(height: AppSizes.ph16),
 
                 CustomTextFormField(
                   controller: usernameController,
                   hintText: 'Ahmed Ibrahim',
-                  title: 'User Name',
+                  title: '',
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "Please Enter User Name";
+                      return "Please Enter Name";
                     }
-
                     return null;
                   },
                 ),
-                SizedBox(height: AppSizes.ph16),
-                CustomTextFormField(
-                  controller: emailController,
-                  hintText: 'usama@gmail.com',
-                  title: 'Email',
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Please Enter Email";
-                    }
-                  },
-                ),
+                SizedBox(height: AppSizes.ph60),
 
-                SizedBox(height: AppSizes.ph40),
                 ElevatedButton(
                   onPressed: () {
                     _saveUserData();

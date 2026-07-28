@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
-import 'package:news_app/features/auth/login_screen.dart';
 import 'package:news_app/features/main/main_screen.dart';
 import 'package:news_app/features/onboarding/onboarding_screen.dart';
-
-import '../../core/datasource/local_data/user_repository.dart';
+import 'package:news_app/features/welcome/welcome_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -26,10 +24,9 @@ class _SplashScreenState extends State<SplashScreen> {
     final bool onboardingComplete =
         PreferencesManager().getBool('onboarding_complete') ?? false;
 
-    final isLoggedIn =
-        await PreferencesManager().getBool('is_logged_in') ?? false;
+    final bool isLoggedIn =
+        PreferencesManager().getBool('is_logged_in') ?? false;
 
-    final hasAccessToken = UserRepository().getUser()?.accessToken != null;
     if (!mounted) return;
     if (!onboardingComplete) {
       Navigator.pushReplacement(
@@ -40,12 +37,12 @@ class _SplashScreenState extends State<SplashScreen> {
           },
         ),
       );
-    } else if (!isLoggedIn && !hasAccessToken) {
+    } else if (!isLoggedIn) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (BuildContext context) {
-            return LoginScreen();
+            return WelcomeScreen();
           },
         ),
       );
