@@ -1,7 +1,8 @@
 import 'package:news_app/core/datasource/local_data/user_repository.dart';
-import 'package:news_app/core/datasource/remote_data/api_config.dart';
-import 'package:news_app/core/datasource/remote_data/api_service.dart';
+import 'package:news_app/core/datasource/remote_data/auth/auth_api_config.dart';
 import 'package:news_app/core/models/user_model.dart';
+
+import '../../../core/datasource/remote_data/auth/auth_api_service.dart';
 
 class AuthRepository {
   AuthRepository(this.apiService);
@@ -13,8 +14,8 @@ class AuthRepository {
     required String password,
   }) async {
     final response = await apiService.post(
-      ApiConfig.login,
-      ApiConfig.baseUrlAuth,
+      AuthApiConfig.login,
+      AuthApiConfig.baseUrlAuth,
       body: {"username": userName, "password": password, "expiresInMins": 30},
     );
     final user = UserModel.fromAuth(response, userName);

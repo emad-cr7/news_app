@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:news_app/core/datasource/remote_data/api_config.dart';
 
+import 'news_api_config.dart';
 import 'news_dio_config.dart';
 
 abstract class NewsBaseApiService {
@@ -17,7 +17,7 @@ class NewsApiService extends NewsBaseApiService {
     try {
       final response = await dio.get(
         endpoint,
-        queryParameters: {"apiKey": ApiConfig.apiKey, ...?params},
+        queryParameters: {"apiKey": NewsApiConfig.apiKey, ...?params},
       );
       return response.data as Map<String, dynamic>;
     }
