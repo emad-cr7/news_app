@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:news_app/core/datasource/remote_data/auth/auth_api_config.dart';
-
-import '../interceptors/loggingInterceptors.dart';
+import '../interceptors/api_key_interceptor.dart';
+import '../interceptors/logging_Interceptors.dart';
 import 'news_api_config.dart';
 
 class NewsDioConfig {
@@ -16,6 +15,7 @@ class NewsDioConfig {
         connectTimeout: Duration(seconds: 30),
       ),
     );
+    dio.interceptors.add(ApiKeyInterceptor());
     dio.interceptors.add(LoggingInterceptors());
     return dio;
   }

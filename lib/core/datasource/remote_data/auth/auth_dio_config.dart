@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../interceptors/auth_interceptors.dart';
-import '../interceptors/loggingInterceptors.dart';
+import '../interceptors/logging_Interceptors.dart';
 
 class DioConfig {
   static Dio createDio() {
