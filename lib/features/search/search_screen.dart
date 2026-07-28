@@ -6,6 +6,7 @@ import 'package:news_app/core/repos/news_repository.dart';
 import 'package:news_app/features/details/news_details_screen.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/datasource/remote_data/news/news_api_service.dart';
 import 'cubit/search_cubit.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -15,7 +16,7 @@ class SearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) {
-        return SearchCubit(NewsRepository(ApiService()));
+        return SearchCubit(NewsRepository(NewsApiService()));
       },
       child: Scaffold(
         appBar: AppBar(title: Text("Search"), centerTitle: true),

@@ -7,6 +7,8 @@ import 'package:news_app/features/home/components/top_headline.dart';
 import 'package:news_app/features/home/components/trending_news.dart';
 import 'package:news_app/features/home/cubit/home_cubit.dart';
 
+import '../../core/datasource/remote_data/news/news_api_service.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -14,7 +16,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) {
-        return HomeCubit(NewsRepository(ApiService()));
+        return HomeCubit(NewsRepository(NewsApiService()));
       },
       child: BlocBuilder<HomeCubit, HomeState>(
         builder: (BuildContext context, HomeState state) {

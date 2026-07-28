@@ -5,30 +5,17 @@ import 'package:news_app/core/datasource/local_data/user_repository.dart';
 import 'package:news_app/core/theme/light_theme.dart';
 import 'package:news_app/features/bookmark/data/bookmark_repository.dart';
 import 'package:news_app/features/splash/splash_screen.dart';
-import 'core/datasource/remote_data/dio_ex.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await ScreenUtil.ensureScreenSize();
-
   await PreferencesManager().init();
-
   await UserRepository().init();
-
   await BookmarkRepository().init();
-
-  await DioEx.exampleGetRequest();
-  await DioEx.exampleGetRequestWithQueryParameter();
-  await DioEx.examplePostRequest();
-  await DioEx.examplePutRequest();
-  await DioEx.exampleDeleteRequest();
-
   runApp(const MyApp());
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
