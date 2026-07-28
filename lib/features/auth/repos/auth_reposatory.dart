@@ -15,7 +15,6 @@ class AuthRepository {
   }) async {
     final response = await apiService.post(
       AuthApiConfig.login,
-      AuthApiConfig.baseUrlAuth,
       body: {"username": userName, "password": password, "expiresInMins": 30},
     );
     final user = UserModel.fromAuth(response, userName);

@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import '../interceptors/auth_interceptors.dart';
 import '../interceptors/logging_Interceptors.dart';
 
-class DioConfig {
+class AuthDioConfig {
   static Dio createDio() {
     final Dio dio = Dio(
       BaseOptions(
@@ -15,8 +15,8 @@ class DioConfig {
         connectTimeout: Duration(seconds: 30),
       ),
     );
-    dio.interceptors.add(LoggingInterceptors());
     dio.interceptors.add(AuthInterceptors());
+    dio.interceptors.add(LoggingInterceptors());
     return dio;
   }
 }
