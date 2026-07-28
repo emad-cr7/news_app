@@ -25,7 +25,6 @@ void main() async {
   await DioEx.examplePostRequest();
   await DioEx.examplePutRequest();
   await DioEx.exampleDeleteRequest();
- // await DioEx.exampleErrorRequest();
 
   runApp(const MyApp());
 }

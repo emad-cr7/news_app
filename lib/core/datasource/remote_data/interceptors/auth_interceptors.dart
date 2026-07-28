@@ -23,6 +23,7 @@ class AuthInterceptors extends Interceptor {
       final BuildContext context = navigatorKey.currentContext!;
       UserRepository().delete();
       PreferencesManager().clear();
+
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (BuildContext context) {
@@ -31,6 +32,12 @@ class AuthInterceptors extends Interceptor {
         ),
         (route) => false,
       );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Session expired. Please login again."),
+        ),
+      );
+
     }
     handler.next(err);
   }

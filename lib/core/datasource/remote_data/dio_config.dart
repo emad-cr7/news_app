@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 
+import 'interceptors/auth_interceptors.dart';
 import 'interceptors/loggingInterceptors.dart';
 
 class DioConfig {
@@ -15,6 +16,7 @@ class DioConfig {
       ),
     );
     dio.interceptors.add(LoggingInterceptors());
+    dio.interceptors.add(AuthInterceptors());
     return dio;
   }
 }
