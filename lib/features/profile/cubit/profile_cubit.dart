@@ -19,7 +19,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     emit(
       state.copyWith(
-        userName: user?.email ?? "",
+        name: user?.name ?? "",
         countryName: user?.countryName,
         countryCode: user?.countryCode,
       ),

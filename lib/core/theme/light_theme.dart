@@ -10,38 +10,47 @@ ThemeData lightTheme = ThemeData(
   primaryColor: LightColors.primaryColor,
   appBarTheme: AppBarTheme(
     backgroundColor: Color(0xFFFFFFFF),
-    titleTextStyle: TextStyle(fontSize: AppSizes.sp16, fontWeight: FontWeight.w700, color: Color(0xFF141414)),
+    titleTextStyle: TextStyle(
+      fontSize: AppSizes.sp16,
+      fontWeight: FontWeight.w700,
+      color: Color(0xFF141414),
+    ),
   ),
   progressIndicatorTheme: ProgressIndicatorThemeData(color: Colors.white),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: LightColors.primaryColor,
       foregroundColor: Color(0xFFFFFCFC),
-      textStyle: TextStyle(fontSize: AppSizes.sp16, fontWeight: FontWeight.w400),
+      textStyle: TextStyle(
+        fontSize: AppSizes.sp16,
+        fontWeight: FontWeight.w400,
+      ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       minimumSize: Size.fromHeight(AppSizes.h52),
     ),
   ),
-  textButtonTheme: TextButtonThemeData(style: TextButton.styleFrom(foregroundColor: LightColors.primaryColor)),
+  textButtonTheme: TextButtonThemeData(
+    style: TextButton.styleFrom(foregroundColor: LightColors.primaryColor),
+  ),
   inputDecorationTheme: InputDecorationTheme(
     hintStyle: TextStyle(color: Color(0xFF9E9E9E)),
     filled: true,
     fillColor: Color(0xFFFFFFFF),
     focusColor: Color(0xFFD1DAD6),
     errorBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.zero,
+      borderRadius: BorderRadius.circular(15),
       borderSide: BorderSide(color: Colors.red, width: 0.5),
     ),
     focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.zero,
+      borderRadius: BorderRadius.circular(15),
       borderSide: BorderSide(color: Color(0xFFD1DAD6), width: 0.5),
     ),
     enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.zero,
+      borderRadius: BorderRadius.circular(15),
       borderSide: BorderSide(color: Color(0xFFD1DAD6), width: 0.5),
     ),
     border: OutlineInputBorder(
-      borderRadius: BorderRadius.zero,
+      borderRadius: BorderRadius.circular(15),
       borderSide: BorderSide(color: Color(0xFFD1DAD6), width: 0.5),
     ),
   ),

@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 
 class ViewAllComponent extends StatelessWidget {
-  const ViewAllComponent({super.key, required this.title, this.titleColor, required this.onTap});
+  const ViewAllComponent({
+    super.key,
+    required this.title,
+    this.titleColor,
+    required this.onTap,
+  });
 
   final String title;
   final Color? titleColor;
@@ -17,7 +22,11 @@ class ViewAllComponent extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(color: titleColor ?? Color(0xFFFFFCFC), fontSize: AppSizes.sp18, fontWeight: FontWeight.w700),
+            style: TextStyle(
+              color: titleColor ?? Color(0xFFFFFCFC),
+              fontSize: AppSizes.sp18,
+              fontWeight: FontWeight.w700,
+            ),
           ),
           InkWell(
             onTap: () => onTap(),

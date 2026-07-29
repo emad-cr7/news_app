@@ -29,73 +29,76 @@ class _ProfileInfoBottomSheetState extends State<ProfileInfoBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.35,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(AppSizes.r16),
-          topRight: Radius.circular(AppSizes.r16),
-        ),
+    return AnimatedPadding(
+      duration: const Duration(milliseconds: 50),
+      curve: Curves.easeOut,
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
-
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Form(
-            key: _key,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Container(
-                    width: AppSizes.w42,
-                    height: AppSizes.h4,
-                    decoration: BoxDecoration(
-                      color: Color(0xFF363636),
-                      borderRadius: BorderRadius.circular(100),
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.35,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(AppSizes.r16),
+            topRight: Radius.circular(AppSizes.r16),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: Form(
+              key: _key,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Container(
+                      width: AppSizes.w42,
+                      height: AppSizes.h4,
+                      decoration: BoxDecoration(
+                        color: Color(0xFF363636),
+                        borderRadius: BorderRadius.circular(100),
+                      ),
                     ),
                   ),
-                ),
-
-                SizedBox(height: AppSizes.ph16),
-                Text(
-                  "Profile Info",
-                  style: TextStyle(
-                    fontSize: AppSizes.sp16,
-                    fontWeight: FontWeight.w400,
+                  SizedBox(height: AppSizes.ph16),
+                  Text(
+                    "Profile Info",
+                    style: TextStyle(
+                      fontSize: AppSizes.sp16,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
-                ),
-
-                CustomTextFormField(
-                  controller: usernameController,
-                  hintText: 'Ahmed Ibrahim',
-                  title: '',
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Please Enter Name";
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: AppSizes.ph60),
-
-                ElevatedButton(
-                  onPressed: () async {
-                    if (_key.currentState!.validate()) {
-                      await UserRepository().updateUser(
-                        name: usernameController.text.trim(),
-                      );
-                      if (!context.mounted) return;
-                      Navigator.pop(context);
-                    }
-                  },
-                  child: Text("Save"),
-                ),
-                SizedBox(height: AppSizes.ph16),
-              ],
+                  CustomTextFormField(
+                    controller: usernameController,
+                    hintText: 'Ahmed Ibrahim',
+                    title: '',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Please Enter Name";
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: AppSizes.ph60),
+                  ElevatedButton(
+                    onPressed: () async {
+                      if (_key.currentState!.validate()) {
+                        await UserRepository().updateUser(
+                          name: usernameController.text.trim(),
+                        );
+                        if (!context.mounted) return;
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: Text("Save"),
+                  ),
+                  SizedBox(height: AppSizes.ph16),
+                ],
+              ),
             ),
           ),
         ),

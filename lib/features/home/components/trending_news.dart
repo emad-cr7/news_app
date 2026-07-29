@@ -11,6 +11,8 @@ import 'package:news_app/features/home/components/trending_news_shimmer.dart';
 import 'package:news_app/features/home/components/view_all_component.dart';
 import 'package:news_app/features/home/cubit/home_cubit.dart';
 
+import 'Trending.dart';
+
 class TrendingNews extends StatelessWidget {
   const TrendingNews({super.key});
 
@@ -33,19 +35,36 @@ class TrendingNews extends StatelessWidget {
             Positioned.fill(
               top: AppSizes.ph70,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "NEWST",
-                    style: TextStyle(
-                      fontSize: AppSizes.sp40,
-                      fontWeight: FontWeight.w600,
-                      color: LightColors.primaryColor,
+                  Center(
+                    child: Text(
+                      "NEWST",
+                      style: TextStyle(
+                        fontSize: AppSizes.sp40,
+                        fontWeight: FontWeight.w600,
+                        color: LightColors.primaryColor,
+                      ),
                     ),
                   ),
 
                   SizedBox(height: AppSizes.ph6),
 
-                  ViewAllComponent(title: 'Trending News', onTap: () {}),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 18,
+                      vertical: 2,
+                    ),
+                    child: Text(
+                      'Trending News',
+                      style: TextStyle(
+                        color: Color(0xFFFFFCFC),
+                        fontSize: AppSizes.sp18,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
 
                   SizedBox(height: AppSizes.ph12),
 
@@ -58,158 +77,9 @@ class TrendingNews extends StatelessWidget {
                           case RequestStatusEnum.loading:
                             return TrendingNewsShimmer();
                           case RequestStatusEnum.error:
-                            return Center(
-                              child: Text(state.errorMessage!),
-                            );
+                            return Center(child: Text(state.errorMessage!));
                           case RequestStatusEnum.loaded:
-                            return ListView.separated(
-                              padding: EdgeInsets.only(left: AppSizes.pw16),
-                              itemCount: state.newsEverythingList
-                                  .take(6)
-                                  .length,
-                              scrollDirection: Axis.horizontal,
-                              separatorBuilder:
-                                  (BuildContext context, int index) =>
-                                      SizedBox(width: AppSizes.pw12),
-                              itemBuilder: (BuildContext context, int index) {
-                                final model = state.newsEverythingList[index];
-                                return GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (BuildContext context) {
-                                          return NewsDetailsScreen(
-                                            model: model,
-                                          );
-                                        },
-                                      ),
-                                    );
-                                  },
-                                  child: SizedBox(
-                                    width: AppSizes.w240,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(
-                                        AppSizes.r12,
-                                      ),
-                                      child: Stack(
-                                        children: [
-                                          if (model.urlToImage != null)
-                                            CustomCachedNetworkImage(
-                                              imagePath: model.urlToImage ?? "",
-                                              width: AppSizes.w240,
-                                              height: AppSizes.h140,
-                                            ),
-
-                                          Positioned.fill(
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                gradient: LinearGradient(
-                                                  begin: Alignment.topCenter,
-                                                  end: Alignment.bottomCenter,
-                                                  colors: [
-                                                    Colors.black.withValues(
-                                                      alpha: 0.5,
-                                                    ),
-                                                    Colors.black.withValues(
-                                                      alpha: 0.7,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-
-                                          Positioned(
-                                            top: AppSizes.ph8,
-                                            right: AppSizes.pw8,
-                                            child: BookmarkButton(
-                                              article: model,
-                                              size: 30,
-                                            ),
-                                          ),
-
-                                          Positioned(
-                                            bottom: AppSizes.ph12,
-                                            right: AppSizes.pw12,
-                                            left: AppSizes.pw12,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  model.title,
-                                                  style: TextStyle(
-                                                    color: Color(0xFFFFFCFC),
-                                                    fontSize: AppSizes.sp14,
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
-                                                  maxLines: 2,
-                                                ),
-                                                SizedBox(height: AppSizes.ph6),
-                                                Row(
-                                                  children: [
-                                                    Expanded(
-                                                      child: Row(
-                                                        children: [
-                                                          CircleAvatar(
-                                                            backgroundImage:
-                                                                NetworkImage(
-                                                                  model
-                                                                      .urlToImage
-                                                                      .toString(),
-                                                                ),
-                                                            radius:
-                                                                AppSizes.r10,
-                                                          ),
-                                                          SizedBox(
-                                                            width: AppSizes.pw6,
-                                                          ),
-                                                          Expanded(
-                                                            child: Text(
-                                                              model.author ??
-                                                                  "",
-                                                              style: TextStyle(
-                                                                color: Color(
-                                                                  0xFFFFFCFC,
-                                                                ),
-                                                                fontSize:
-                                                                    AppSizes
-                                                                        .sp12,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                              ),
-                                                              maxLines: 1,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      model.publishedAt
-                                                          .formatDateTime(),
-                                                      style: TextStyle(
-                                                        color: Color(
-                                                          0xFFFFFCFC,
-                                                        ),
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize: AppSizes.sp14,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            );
+                            return Trending(state: state,);
                         }
                       },
                     ),

@@ -11,6 +11,8 @@ import 'package:news_app/features/profile/bottom_sheet/profile_info_bottom_sheet
 import 'package:news_app/features/profile/cubit/profile_cubit.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/datasource/local_data/preferences_manager.dart';
+import '../bookmark/data/bookmark_repository.dart';
 import '../welcome/welcome_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -18,8 +20,6 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final name = UserRepository().getUser()?.name;
-
     return BlocProvider<ProfileCubit>(
       create: (BuildContext context) => ProfileCubit()..getUserData(),
       child: Scaffold(
@@ -29,9 +29,8 @@ class ProfileScreen extends StatelessWidget {
             vertical: AppSizes.h24,
             horizontal: AppSizes.w16,
           ),
-          child: BlocBuilder<ProfileCubit , ProfileState>(
-            builder:
-                (BuildContext context, ProfileState state) {
+          child: BlocBuilder<ProfileCubit, ProfileState>(
+            builder: (BuildContext context, ProfileState state) {
               return SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,12 +40,9 @@ class ProfileScreen extends StatelessWidget {
                         alignment: Alignment.bottomRight,
                         children: [
                           CircleAvatar(
-                            backgroundImage:
-                            state.selectedImage == null
-                                ? AssetImage("assets/images/person.png")
-                                : FileImage(
-                              File(state.selectedImage!.path),
-                            ),
+                            backgroundImage: state.selectedImage == null
+                                ? AssetImage("assets/images/profile_photo.png")
+                                : FileImage(File(state.selectedImage!.path)),
                             radius: AppSizes.r60,
                             backgroundColor: Colors.transparent,
                           ),
@@ -70,8 +66,11 @@ class ProfileScreen extends StatelessWidget {
                     SizedBox(height: AppSizes.ph8),
                     Center(
                       child: Text(
-                        name ?? "",
-                        style: TextStyle(color: Colors.black, fontSize: AppSizes.sp16),
+                        state.name ?? "",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: AppSizes.sp16,
+                        ),
                       ),
                     ),
 
@@ -80,7 +79,7 @@ class ProfileScreen extends StatelessWidget {
                     _buildProfileItem(
                       "Personal Info",
                       "assets/images/profile.svg",
-                          () async {
+                      () async {
                         showModalBottomSheet(
                           context: context,
                           isScrollControlled: true,
@@ -96,7 +95,7 @@ class ProfileScreen extends StatelessWidget {
                     _buildProfileItem(
                       state.countryName ?? "Country",
                       "assets/images/Country.svg",
-                          () {
+                      () {
                         showCountryPicker(
                           context: context,
                           onSelect: (Country country) {
@@ -108,16 +107,8 @@ class ProfileScreen extends StatelessWidget {
                     _buildProfileItem(
                       "Logout",
                       "assets/images/logout.svg",
-                          () async {
-                        await UserRepository().delete();
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return WelcomeScreen();
-                            },
-                          ),
-                        );
+                      () async {
+                        _showAlertDialog(context);
                       },
                       color: LightColors.primaryColor,
                       withDivider: false,
@@ -179,12 +170,12 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildProfileItem(
-      String title,
-      String path,
-      Function onTap, {
-        Color color = const Color(0xFF161F1B),
-        bool withDivider = true,
-      }) {
+    String title,
+    String path,
+    Function onTap, {
+    Color color = const Color(0xFF161F1B),
+    bool withDivider = true,
+  }) {
     return Column(
       children: [
         ListTile(
@@ -208,6 +199,48 @@ class ProfileScreen extends StatelessWidget {
 
         if (withDivider) Divider(color: Colors.grey.shade500),
       ],
+    );
+  }
+
+  void _showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Log out"),
+          content: Text(
+            "Are you sure Log out of your account",
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("Cancel", style: TextStyle(color: Colors.black)),
+            ),
+
+            TextButton(
+              onPressed: () async {
+                await UserRepository().delete();
+                await BookmarkRepository().clearAllBookmarks();
+
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return WelcomeScreen();
+                    },
+                  ),
+                );
+              },
+
+              style: TextButton.styleFrom(foregroundColor: Colors.red),
+              child: Text("Log out"),
+            ),
+          ],
+        );
+      },
     );
   }
 }
