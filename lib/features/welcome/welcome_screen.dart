@@ -86,7 +86,6 @@ class WelcomeScreen extends StatelessWidget {
                             onPressed: () async {
                               if (_form.currentState!.validate()) {
                                 final existingUser = UserRepository().getUser();
-
                                 if (existingUser != null) {
                                   await UserRepository().updateUser(
                                     name: nameController.text.trim(),
